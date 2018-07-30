@@ -7,6 +7,12 @@ import (
 	"time"
 )
 
+type IBlock interface {
+	toString()
+	test()
+	genesisBlock()
+}
+
 type Block struct {
 	timestamp  time.Time
 	lastHash   string
@@ -28,7 +34,7 @@ func New(timestamp time.Time,
 	}
 }
 
-func (b Block) toString() string {
+func (b *Block) toString() string {
 	s := []string{" Block - ",
 		"\nTimestamp : " + b.timestamp.String(),
 		"\nLast Hash :" + b.lastHash,
@@ -38,14 +44,14 @@ func (b Block) toString() string {
 		"\nData : " + b.data}
 	var x = strings.Join(s, " ")
 	fmt.Println(x)
-	return " ..."
+	return x
 }
 
-func (b Block) test() string {
+func (b *Block) test() string {
 	return "hi"
 }
 
-func (b Block) genesis() Block {
+func (b *Block) genesisBlock() Block {
 	return Block{
 		timestamp:  time.Now(),
 		lastHash:   "",
