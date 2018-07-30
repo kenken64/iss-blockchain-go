@@ -1,16 +1,14 @@
-package blockchain_test
+package blockchain
 
 import (
 	"fmt"
 	"testing"
 	"time"
-
-	. "github.com/kenken64/iss-blockchain-go/blockchain"
 )
 
 func TestGenesisBlock(t *testing.T) {
 	fmt.Print("test > ")
 
-	b := NewBlock(time.Now(), "", "", "", 0, 0)
+	b := getBlock(time.Now(), "", "", "", 0, 0)
 	fmt.Println(b.toString())
 }

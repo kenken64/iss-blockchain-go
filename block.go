@@ -1,12 +1,5 @@
 package blockchain
 
-import (
-	"fmt"
-	"strconv"
-	"strings"
-	"time"
-)
-
 type Block struct {
 	timestamp  time.Time
 	lastHash   string
@@ -16,7 +9,7 @@ type Block struct {
 	difficulty int
 }
 
-func NewBlock(timestamp time.Time,
+func getBlock(timestamp time.Time,
 	lastHash string, hash string, data string, nonce uint32, difficulty int) *Block {
 	return &Block{
 		timestamp:  timestamp,
