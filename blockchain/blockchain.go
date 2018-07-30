@@ -16,7 +16,7 @@ type Block struct {
 	difficulty int
 }
 
-func New(timestamp time.Time,
+func NewBlock(timestamp time.Time,
 	lastHash string, hash string, data string, nonce uint32, difficulty int) *Block {
 	return &Block{
 		timestamp:  timestamp,
