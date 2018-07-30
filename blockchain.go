@@ -16,7 +16,7 @@ type Block struct {
 	difficulty int
 }
 
-func New(timestamp time.Time,
+func NewBlock(timestamp time.Time,
 	lastHash string, hash string, data string, nonce uint32, difficulty int) Block {
 	return Block{
 		timestamp:  timestamp,
@@ -28,7 +28,7 @@ func New(timestamp time.Time,
 	}
 }
 
-func (b *Block) toString() string {
+func (b Block) toString() string {
 	s := []string{" Block - ",
 		"\nTimestamp : " + b.timestamp.String(),
 		"\nLast Hash :" + b.lastHash,
@@ -41,11 +41,11 @@ func (b *Block) toString() string {
 	return " ..."
 }
 
-func test() string {
+func (b Block) test() string {
 	return "hi"
 }
 
-func (b *Block) genesis() Block {
+func (b Block) genesis() Block {
 	return Block{
 		timestamp:  time.Now(),
 		lastHash:   "",
