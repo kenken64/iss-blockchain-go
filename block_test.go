@@ -11,6 +11,6 @@ import (
 func TestGenesisBlock(t *testing.T) {
 	fmt.Print("test > ")
 
-	b := blockchain.NewBlock(time.Now(), "", "", "", 0, 0)
-	//fmt.Println(b)
+	b := blockchain.New(time.Now(), "", "", "", 0, 0)
+	fmt.Println(b)
 }
