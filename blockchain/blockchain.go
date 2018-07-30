@@ -7,12 +7,6 @@ import (
 	"time"
 )
 
-type IBlock interface {
-	toString()
-	test()
-	genesisBlock()
-}
-
 type Block struct {
 	timestamp  time.Time
 	lastHash   string

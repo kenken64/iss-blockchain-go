@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	blockchain "github.com/kenken64/iss-blockchain-go"
+	. "github.com/kenken64/iss-blockchain-go/blockchain"
 )
 
 func TestGenesisBlock(t *testing.T) {
 	fmt.Print("test > ")
 
 	b := blockchain.New(time.Now(), "", "", "", 0, 0)
-	fmt.Println(b)
+	fmt.Println(b.toString())
 }
