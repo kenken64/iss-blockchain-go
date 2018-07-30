@@ -17,8 +17,8 @@ type Block struct {
 }
 
 func NewBlock(timestamp time.Time,
-	lastHash string, hash string, data string, nonce uint32, difficulty int) Block {
-	return Block{
+	lastHash string, hash string, data string, nonce uint32, difficulty int) *Block {
+	return &Block{
 		timestamp:  timestamp,
 		lastHash:   lastHash,
 		hash:       hash,
