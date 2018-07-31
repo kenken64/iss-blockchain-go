@@ -26,3 +26,19 @@ aleternatively
 ```
 go run blockchain.go
 ```
+
+### Testing
+
+Launch postman to test the following end point 
+
+GET http://localhost:3005/blocks
+GET http://localhost:3005/is-chain-valid
+POST http://localhost:3005/pay
+
+```
+{
+	"From": "Bala",
+	"To": "Chuk",
+	"Amount": 500
+}
+```
