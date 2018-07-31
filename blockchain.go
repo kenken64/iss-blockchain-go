@@ -1,26 +1,5 @@
 package main
 
-/*
-* short variable declaration
-* Appending to a slice
-* func append(s []T, vs ...T) []T
-* Go has pointers. A pointer holds the memory address of a value.
-
-The type *T is a pointer to a T value. Its zero value is nil.
-
-var p *int
-The & operator generates a pointer to its operand.
-
-i := 42
-p = &i
-The * operator denotes the pointer's underlying value.
-
-fmt.Println(*p) // read i through the pointer p
-*p = 21         // set i through the pointer p
-This is known as "dereferencing" or "indirecting".
-
-Unlike C, Go has no pointer arithmetic.
-*/
 import (
 	"crypto/sha256"
 	"fmt"
@@ -60,10 +39,6 @@ type Transaction struct {
 	Date   time.Time
 }
 
-/*
-* New a block
-* this is to demonstrate pointer
- */
 func NewBlock(index int, data interface{},
 	timestamp time.Time) *Block {
 	return &Block{
@@ -82,10 +57,6 @@ func NewTransaction(from string, to string, amount float64) *Transaction {
 	}
 }
 
-/*
-*	sprintf is string formatting
-* (*)
- */
 func (b *Block) createHash() string {
 	d := fmt.Sprintf("%v%v%v%v", b.Index, b.LastHash, b.Timestamp, b.Data)
 	h := sha256.New()
@@ -93,9 +64,7 @@ func (b *Block) createHash() string {
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
-//RFC3339     = "2006-01-02T15:04:05Z07:00"
 func NewBlockChain() Chain {
-	// time.Now()
 	date, error := time.Parse(time.RFC3339, "2018-08-20T22:08:41+00:00")
 	if error != nil {
 		panic(error)
@@ -115,9 +84,7 @@ func NewBlockChain() Chain {
 
 func (b *BlockChain) AddBlock(block *Block) {
 	block.LastHash = b.GetLastBlock().Hash
-
-	// set current hash from created hash
-	block.Hash = block.createHash()
+block.Hash = block.createHash()
 	b.Blocks = append(b.Blocks, block)
 }
 
@@ -148,7 +115,6 @@ func (b *BlockChain) IsChainValid() bool {
 
 func main() {
 	fmt.Println("[ Starting Blockchain API Server ]")
-
 	// Instantiate a new blockchain
 	blockchain := NewBlockChain()
 	r := gin.Default()
