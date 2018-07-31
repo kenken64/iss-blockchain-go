@@ -6,8 +6,16 @@
 go get github.com/gin-gonic/gin
 ```
 
-### Start the blockchain API app 
-install gomon
+### Utilities required
+install gomon (https://github.com/johannesboyne/gomon)
+
+```
+npm install -g go-mon
+```
+
+### How to start the blockchain app
+
+Go to your terminal and execute the following either one of the command line
 
 ```
 gomon blockchain.go
