@@ -21,7 +21,7 @@ Go to your terminal and execute the following either one of the command line
 gomon blockchain.go
 ```
 
-aleternatively 
+alternatively 
 
 ```
 go run blockchain.go
