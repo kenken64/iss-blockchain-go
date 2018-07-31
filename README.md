@@ -1,10 +1,12 @@
 
-* Get Golang Web middleware - GIN
+### Get Golang Web middleware - GIN
+* Install Golang dependencies, refer to GIN documention (https://github.com/gin-gonic/gin)
+
 ```
 go get github.com/gin-gonic/gin
 ```
 
-Start the app 
+### Start the blockchain API app 
 install gomon
 
 ```
