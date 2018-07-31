@@ -31,9 +31,11 @@ go run blockchain.go
 
 Launch postman to test the following end point 
 
-GET http://localhost:3005/blocks
-GET http://localhost:3005/is-chain-valid
-POST http://localhost:3005/pay
+* GET http://localhost:3005/blocks
+* GET http://localhost:3005/is-chain-valid
+* POST http://localhost:3005/pay
+
+Payload for the above POST
 
 ```
 {
