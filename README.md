@@ -1,6 +1,6 @@
 
 ### Get Golang Web middleware - GIN
-* Install Golang dependencies, refer to GIN documention (https://github.com/gin-gonic/gin)
+* Install GIN dependencies to your project home directory, further feature please refer to GIN documention (https://github.com/gin-gonic/gin)
 
 ```
 go get github.com/gin-gonic/gin
