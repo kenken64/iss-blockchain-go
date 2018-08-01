@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -84,7 +85,7 @@ func NewBlockChain() Chain {
 
 func (b *BlockChain) AddBlock(block *Block) {
 	block.LastHash = b.GetLastBlock().Hash
-block.Hash = block.createHash()
+	block.Hash = block.createHash()
 	b.Blocks = append(b.Blocks, block)
 }
 
@@ -154,7 +155,13 @@ func main() {
 	r.GET("/is-chain-valid", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"chain-validity": blockchain.IsChainValid()})
 	})
-
-	r.Run("localhost:3005")
+	hostNamePort := os.Getenv("BLOCKCHAIN_API_HOSTNAMEPORT")
+	fmt.Println("Hostname and Port ", hostNamePort)
+	if hostNamePort == "" {
+		hostNamePort = "localhost:3005"
+		fmt.Println("default Hostname and Port ", hostNamePort)
+	}
+	
+	r.Run(hostNamePort)
 
 }
