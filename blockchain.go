@@ -114,6 +114,10 @@ func (b *BlockChain) IsChainValid() bool {
 	return true
 }
 
+func makeP2PHost(){
+	
+}
+
 func main() {
 	fmt.Println("[ Starting Blockchain API Server ]")
 	// Instantiate a new blockchain
@@ -155,13 +159,16 @@ func main() {
 	r.GET("/is-chain-valid", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"chain-validity": blockchain.IsChainValid()})
 	})
+
 	hostNamePort := os.Getenv("BLOCKCHAIN_API_HOSTNAMEPORT")
+	peersHostname := os.Getenv("BLOCKCHAIN_API_PEERS")
 	fmt.Println("Hostname and Port ", hostNamePort)
+	fmt.Println("peersHostname ", peersHostname)
 	if hostNamePort == "" {
 		hostNamePort = "localhost:3005"
 		fmt.Println("default Hostname and Port ", hostNamePort)
 	}
-	
+
 	r.Run(hostNamePort)
 
 }
