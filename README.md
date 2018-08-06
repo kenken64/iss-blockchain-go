@@ -1,12 +1,18 @@
 
 ### Get Golang Web middleware - GIN
-* Install GIN dependencies to your project home directory, further feature please refer to GIN documention (https://github.com/gin-gonic/gin)
+* Install GIN library to your project home directory, further feature please refer to GIN documentation (https://github.com/gin-gonic/gin)
 
 ```
 go get github.com/gin-gonic/gin
-go get -v github.com/libp2p/go-libp2p
-go get -v github.com/libp2p/go-libp2p-crypto
 ```
+
+### Get Golang Websocket - GORILLA
+* Install GORILLA libary to your project home directory, further feature please refer to GORILLA documentation (http://www.gorillatoolkit.org/pkg/websocketn)
+
+```
+go get github.com/gorilla/websocket
+```
+
 
 ### Utilities required
 install gomon (https://github.com/johannesboyne/gomon)
@@ -28,6 +34,13 @@ alternatively
 ```
 go run blockchain.go
 ```
+
+### Node synchornization using client server rather p2p
+```
+go run blockchain.go -h localhost:300
+go run blockchain.go -h localhost:3002 -d localhost:3001
+```
+
 
 ### Testing
 
