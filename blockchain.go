@@ -2,14 +2,19 @@ package main
 
 import (
 	"crypto/sha256"
+	"encoding/json"
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 )
 
+// data structure of the block
 type Block struct {
 	Index      int         `json:"index"`
 	Timestamp  time.Time   `json:"date"`
@@ -20,8 +25,12 @@ type Block struct {
 	difficulty int
 }
 
+// list of blockchains
 type Blocks []*Block
 
+var mutex = &sync.Mutex{}
+
+// interface consist all the function of the blockchain struct
 type Chain interface {
 	AddBlock(block *Block)
 	GetLastBlock() *Block
@@ -114,8 +123,41 @@ func (b *BlockChain) IsChainValid() bool {
 	return true
 }
 
-func makeP2PHost(){
-	
+var wsupgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin:     func(r *http.Request) bool { return true },
+}
+
+func wshandler(w http.ResponseWriter, r *http.Request, b Blocks) {
+	conn, err := wsupgrader.Upgrade(w, r, nil)
+	if err != nil {
+		fmt.Println("Failed to set websocket upgrade: %+v", err)
+		return
+	}
+	//defer conn.Close()
+
+	go func() {
+		for {
+			_, message, error := conn.ReadMessage()
+			if error != nil {
+				fmt.Println("read: ", error)
+				return
+			}
+			checkBlocksSize := len(b)
+			time.Sleep(2 * time.Second)
+			fmt.Println("checkBlocksSize:", checkBlocksSize)
+			fmt.Println("message:", string(message))
+
+			b, err := json.Marshal(b)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			conn.WriteJSON(b)
+
+		}
+	}()
 }
 
 func main() {
@@ -124,15 +166,60 @@ func main() {
 	blockchain := NewBlockChain()
 	r := gin.Default()
 
+	help := flag.Bool("help", false, "Display Help")
+	host := flag.String("h", "", "Host Address and Port")
+	dest := flag.String("d", "", "Dest MultiAddr String")
+	flag.Parse()
+	if *help {
+		fmt.Printf("This program demonstrates a simple blockchain\n\n")
+		fmt.Printf("Usage: Run './blockchain -sp <SOURCE_PORT>' where <SOURCE_PORT> can be any port number. Now run './chat -d <MULTIADDR>' where <MULTIADDR> is multiaddress of previous listener host.\n")
+
+		os.Exit(0)
+	}
+
+	blocksSize := len(blockchain.GetBlocks())
+	fmt.Println("Total block size : ", blocksSize)
+	fmt.Println("readsssss:", *dest)
+	if *dest != "" {
+		URL := "ws://" + *dest + "/ws"
+
+		var dialer *websocket.Dialer
+
+		conn, _, err := dialer.Dial(URL, nil)
+		//defer conn.Close()
+		go func() {
+
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			for {
+				b, err := json.Marshal(blockchain.GetBlocks())
+				if err != nil {
+					fmt.Println(err)
+					return
+				}
+				conn.WriteJSON(b)
+
+				_, message, err := conn.ReadMessage()
+				if err != nil {
+					fmt.Println("read:", err)
+					return
+				}
+				fmt.Println("received: %s\n" + string(message))
+				fmt.Printf("received: %s\n", message)
+			}
+		}()
+	}
+
+	r.GET("/ws", func(c *gin.Context) {
+		wshandler(c.Writer, c.Request, blockchain.GetBlocks())
+	})
+
 	r.GET("/blocks", func(c *gin.Context) {
 		currentBlocks := blockchain.GetBlocks()
 		var interfaceSlice []interface{} = make([]interface{}, len(currentBlocks))
 		for i := range currentBlocks {
-			fmt.Println(currentBlocks[i].Index)
-			fmt.Println(currentBlocks[i].Timestamp)
-			fmt.Println(currentBlocks[i].Hash)
-			fmt.Println(currentBlocks[i].LastHash)
-			fmt.Println(currentBlocks[i].Data)
 			blockJson := &Block{
 				Index:     currentBlocks[i].Index,
 				Timestamp: currentBlocks[i].Timestamp,
@@ -142,6 +229,7 @@ func main() {
 			}
 			interfaceSlice[i] = blockJson
 		}
+
 		c.JSON(http.StatusOK, gin.H{"blocks": interfaceSlice})
 	})
 
@@ -160,15 +248,12 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"chain-validity": blockchain.IsChainValid()})
 	})
 
-	hostNamePort := os.Getenv("BLOCKCHAIN_API_HOSTNAMEPORT")
-	peersHostname := os.Getenv("BLOCKCHAIN_API_PEERS")
-	fmt.Println("Hostname and Port ", hostNamePort)
-	fmt.Println("peersHostname ", peersHostname)
-	if hostNamePort == "" {
-		hostNamePort = "localhost:3005"
-		fmt.Println("default Hostname and Port ", hostNamePort)
+	fmt.Println("Hostname and Port ", dest)
+	var finalPortAssignment = "localhost:3005"
+	if *host != "" {
+		finalPortAssignment = *host
+		fmt.Println("default Hostname and Port ", finalPortAssignment)
 	}
 
-	r.Run(hostNamePort)
-
+	r.Run(finalPortAssignment)
 }

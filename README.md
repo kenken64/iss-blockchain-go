@@ -4,6 +4,8 @@
 
 ```
 go get github.com/gin-gonic/gin
+go get -v github.com/libp2p/go-libp2p
+go get -v github.com/libp2p/go-libp2p-crypto
 ```
 
 ### Utilities required
@@ -76,3 +78,6 @@ fmt.Println(*p) // read i through the pointer p
 * sprintf is string formatting
 
 * Format use for time.Time parsing RFC3339     = "2006-01-02T15:04:05Z07:00"
+
+* For each read we pick a key to access, Lock() the mutex to ensure exclusive access to the state, read the value at the chosen key, Unlock() the mutex, and increment the readOps count.
+Wait a bit between reads.
