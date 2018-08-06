@@ -37,18 +37,18 @@ go run blockchain.go
 
 ### Node synchornization using client server rather p2p
 ```
-go run blockchain.go -h localhost:300
+go run blockchain.go -h localhost:3001
 go run blockchain.go -h localhost:3002 -d localhost:3001
 ```
 
 
-### Testing
+### Testing Endpoint
 
 Launch postman to test the following end point 
 
-* GET http://localhost:3005/blocks
-* GET http://localhost:3005/is-chain-valid
-* POST http://localhost:3005/pay
+* GET http://localhost:3001/blocks
+* GET http://localhost:3001/is-chain-valid
+* POST http://localhost:3001/pay
 
 Payload for the above POST
 
