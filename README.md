@@ -7,7 +7,7 @@ go get github.com/gin-gonic/gin
 ```
 
 ### Get Golang Websocket - GORILLA
-* Install GORILLA libary to your project home directory, further feature please refer to GORILLA documentation (http://www.gorillatoolkit.org/pkg/websocketn)
+* Install GORILLA libary to your project home directory, further feature please refer to GORILLA documentation (http://www.gorillatoolkit.org/pkg/websocket)
 
 ```
 go get github.com/gorilla/websocket
