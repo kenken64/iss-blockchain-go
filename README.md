@@ -1,3 +1,7 @@
+### Pre-requisite
+* Install NodeJS for Gomon
+* Install Golang (https://golang.org/dl/)
+* Install Visual Studio Code as IDE (https://code.visualstudio.com/)
 
 ### Get Golang Web middleware - GIN
 * Install GIN library to your project home directory, further feature please refer to GIN documentation (https://github.com/gin-gonic/gin)
@@ -12,7 +16,6 @@ go get github.com/gin-gonic/gin
 ```
 go get github.com/gorilla/websocket
 ```
-
 
 ### Utilities required
 install gomon (https://github.com/johannesboyne/gomon)
@@ -33,6 +36,13 @@ alternatively
 
 ```
 go run blockchain.go
+```
+
+### Compile the golang source code into binary file
+```
+go build blockchain.go
+chmod +x blockchain
+./blockchain -h localhost:3001
 ```
 
 ### Node synchornization using client server rather p2p
