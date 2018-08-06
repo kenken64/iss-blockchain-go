@@ -144,21 +144,14 @@ func wshandler(w http.ResponseWriter, r *http.Request, b Chain) {
 				fmt.Println("read: ", error)
 				return
 			}
-			//checkBlocksSize := len(b)
 			time.Sleep(2 * time.Second)
-			//fmt.Println("checkBlocksSize:", checkBlocksSize)
 			fmt.Println("message:", string(message))
-			//fmt.Println("message b :", string(b))
 			for _, bb := range b.GetBlocks() {
-				fmt.Println("message b.Index :", bb.Index)
-				fmt.Println("message b.Hash :", string(bb.Hash))
-				fmt.Println("message b.Data :", bb.Data)
 				b, err := json.Marshal(bb)
 				if err != nil {
 					fmt.Println(err)
 					return
 				}
-				fmt.Println("message b :", string(b))
 				conn.WriteJSON(string(b))
 			}
 
@@ -178,7 +171,7 @@ func main() {
 	flag.Parse()
 	if *help {
 		fmt.Printf("This program demonstrates a simple blockchain\n\n")
-		fmt.Printf("Usage: Run './blockchain -sp <SOURCE_PORT>' where <SOURCE_PORT> can be any port number. Now run './chat -d <MULTIADDR>' where <MULTIADDR> is multiaddress of previous listener host.\n")
+		fmt.Printf("Usage: Run './blockchain -h <hostname:port> -d <peershost:port>\n")
 
 		os.Exit(0)
 	}
