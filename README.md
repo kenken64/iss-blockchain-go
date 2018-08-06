@@ -71,6 +71,14 @@ Payload for the above POST
 }
 ```
 
+### Missing feature
+* Wallet Management - Generate pki
+* Sign transaction
+* Verify transaction
+* Mining
+* Consensus Algorithm
+
+For all this missing feature please refer to the javascript version(https://github.com/kenken64/MerlionCoin)
 
 ### Golang Notes
 
