@@ -39,7 +39,7 @@ type Chain interface {
 }
 
 type BlockChain struct {
-	Blocks Blocks
+	Blocks Blocks `json:"Blocks"`
 }
 
 type Transaction struct {
@@ -129,7 +129,7 @@ var wsupgrader = websocket.Upgrader{
 	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
-func wshandler(w http.ResponseWriter, r *http.Request, b Blocks) {
+func wshandler(w http.ResponseWriter, r *http.Request, b Chain) {
 	conn, err := wsupgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println("Failed to set websocket upgrade: %+v", err)
@@ -144,17 +144,23 @@ func wshandler(w http.ResponseWriter, r *http.Request, b Blocks) {
 				fmt.Println("read: ", error)
 				return
 			}
-			checkBlocksSize := len(b)
+			//checkBlocksSize := len(b)
 			time.Sleep(2 * time.Second)
-			fmt.Println("checkBlocksSize:", checkBlocksSize)
+			//fmt.Println("checkBlocksSize:", checkBlocksSize)
 			fmt.Println("message:", string(message))
-
-			b, err := json.Marshal(b)
-			if err != nil {
-				fmt.Println(err)
-				return
+			//fmt.Println("message b :", string(b))
+			for _, bb := range b.GetBlocks() {
+				fmt.Println("message b.Index :", bb.Index)
+				fmt.Println("message b.Hash :", string(bb.Hash))
+				fmt.Println("message b.Data :", bb.Data)
+				b, err := json.Marshal(bb)
+				if err != nil {
+					fmt.Println(err)
+					return
+				}
+				fmt.Println("message b :", string(b))
+				conn.WriteJSON(string(b))
 			}
-			conn.WriteJSON(b)
 
 		}
 	}()
@@ -199,21 +205,23 @@ func main() {
 					fmt.Println(err)
 					return
 				}
-				conn.WriteJSON(b)
 
-				_, message, err := conn.ReadMessage()
-				if err != nil {
-					fmt.Println("read:", err)
+				conn.WriteJSON(b)
+				//i := Block{}
+				var jsonStr = ""
+				err2 := conn.ReadJSON(&jsonStr)
+
+				if err2 != nil {
+					fmt.Println("read:", err2)
 					return
 				}
-				fmt.Println("received: %s\n" + string(message))
-				fmt.Printf("received: %s\n", message)
+				fmt.Println(jsonStr)
 			}
 		}()
 	}
 
 	r.GET("/ws", func(c *gin.Context) {
-		wshandler(c.Writer, c.Request, blockchain.GetBlocks())
+		wshandler(c.Writer, c.Request, blockchain)
 	})
 
 	r.GET("/blocks", func(c *gin.Context) {
