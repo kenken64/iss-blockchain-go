@@ -1,0 +1,33 @@
+
+
+POST http://localhost:3001/pay HTTP/1.1
+content-type: application/json
+
+{
+	"From": "Bala",
+	"To": "Kenneth",
+	"Amount": 20
+}
+
+POST http://localhost:3001/pay HTTP/1.1
+content-type: application/json
+
+{
+	"From": "Bala",
+	"To": "Chuk",
+	"Amount": 100
+}
+
+
+POST http://localhost:3001/pay HTTP/1.1
+content-type: application/json
+
+{
+	"From": "Chuk",
+	"To": "Kenneth",
+	"Amount": 34
+}
+
+GET http://localhost:3001/is-chain-valid HTTP/1.1
+
+GET http://localhost:3001/blocks HTTP/1.1
