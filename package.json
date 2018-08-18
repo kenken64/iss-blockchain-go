@@ -1,0 +1,23 @@
+{
+  "name": "iss-blockchain-go",
+  "version": "1.0.0",
+  "description": "* Install NodeJS for Gomon\r * Install Golang (https://golang.org/dl/)\r * Install Visual Studio Code as IDE (https://code.visualstudio.com/)",
+  "main": "app.js",
+  "scripts": {
+    "start": "npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenken64/iss-blockchain-go.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kenken64/iss-blockchain-go/issues"
+  },
+  "homepage": "https://github.com/kenken64/iss-blockchain-go#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
