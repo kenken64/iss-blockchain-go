@@ -73,7 +73,7 @@ Payload for the above POST
 ```
 
 ### Missing feature
-* Wallet Management - Generate pki
+* Wallet Management - Generate PKI
 * Sign transaction
 * Verify transaction
 * Mining
