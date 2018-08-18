@@ -38,11 +38,12 @@ alternatively
 go run blockchain.go
 ```
 
-### Compile the golang source code into binary file
+### Compile the golang source code into binary file, execute the program in binary mode
 ```
 go build blockchain.go
 chmod +x blockchain
 ./blockchain -h localhost:3001
+./blockchain -h localhost:3002 -d localhost:3001
 ```
 
 ### Node synchornization using client server rather p2p
