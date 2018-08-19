@@ -163,8 +163,10 @@ Our blockchain supports the idea of a dynamic difficulty level that changes over
 
 [Ethereum Block Difficulty Chart](https://etherscan.io/chart/difficulty)
 
-##Brief walkthrough of GoLang
+##Brief walkthrough on Go Programming Language
 Duration: 2:50
+
+This walkthrough is to run through all the keyword and programming rules sufficient enough for us to build this workshop.
 
 ### Golang Notes
 
