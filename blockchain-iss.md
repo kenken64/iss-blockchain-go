@@ -218,7 +218,11 @@ The Genesis Block is the very first block in a blockchain – a way to start a b
 ##Blockchain
 Duration: 2:50
 
-The Blockchain class is responsible for storing the list of blocks on the blockchain adding new blocks to the chain validating new blockschains replacing current blockchain with a new one (when synchronizing with other nodes). 
+The Blockchain class is responsible for 
+* storing the list of blocks on the blockchain 
+* adding new blocks to the chain 
+* validating new blockschains 
+* replacing current blockchain with a new one (when synchronizing with other nodes). 
 
 ##Blockchain replication
 Duration: 2:50
