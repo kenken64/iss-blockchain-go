@@ -138,6 +138,7 @@
 <h2>Dynamic Difficulty Level</h2>
 <p>The blockchain uses a dynamic difficulty level by increasing the difficulty level if blocks are mined too quickly and decreasing the difficulty level if blocks are mined too slowly. The blockchain&#39;s default mine rate is 3000 milliseconds and the difficulty level is adjusted based on whether blocks are mined faster or slower than this value.</p>
 <p>Our blockchain supports the idea of a dynamic difficulty level that changes over time, depending on how quickly blocks are added to the blockchain. Each block stores the difficulty level and the mine rate, which represents the rate at which blocks should be mined. Difficulty level will be adjusted by checking the difference between the current and previous blocks and increasing the difficulty level if the difference is below the target mine rate (to increase mining time) and decreasing the difficulty level if the difference is above the target mine rate (to decrease mining time).</p>
+<p><img src="img\be7fe5bbddf898.png"><br></p>
 <p><a href="https://etherscan.io/chart/difficulty" target="_blank">Ethereum Block Difficulty Chart</a></p>
 
 
@@ -204,9 +205,13 @@ p = &amp;i
       <google-codelab-step label="Blockchain replication" duration="3">
         <p>What is a forks?</p>
 <p>Every node on the network needs to have the same copy of the blockchain. So what happens when a new block gets mined on one node? Now the system has to replicate the new block to all the other nodes on the network so every node is in sync and has the same copy of the blockchain.</p>
+<p><img src="img\b2388a31bbd6f95.png"></p>
 <p>Since the blockchain needs to be replicated among all nodes in the network, the question arises – what happens if two nodes mine a block at the same time? This is when there&#39;s a fork in the blockchain and the system needs to reconcile the fork and merge all the new blocks.</p>
+<p><img src="img\21f24bfed0b8a1b6.png"></p>
 <p>When a fork occurs, some nodes will get replicated from node A and some will get replicated from node B which will create the following scenario:</p>
+<p><img src="img\f2f6c82fe9421966.png"></p>
 <p>We will use the rule that the longest chain will be accepted as the main chain. If there is a conflict between multiple nodes mining blocks at the same time, eventually, one chain will be longer and that will be accepted as the master blockchain. The other blocks that were mined on the shorter chain will be incorporated into the main blockchain.</p>
+<p><img src="img\2c6071477a35a6cc.png"></p>
 
 
       </google-codelab-step>

@@ -161,6 +161,11 @@ The blockchain uses a dynamic difficulty level by increasing the difficulty leve
 
 Our blockchain supports the idea of a dynamic difficulty level that changes over time, depending on how quickly blocks are added to the blockchain. Each block stores the difficulty level and the mine rate, which represents the rate at which blocks should be mined. Difficulty level will be adjusted by checking the difference between the current and previous blocks and increasing the difficulty level if the difference is below the target mine rate (to increase mining time) and decreasing the difficulty level if the difference is above the target mine rate (to decrease mining time).
 
+<br>
+<img src="images/blockchain-adjust-mine-rate-dynamic-difficulty-696x243.png"/>
+<br>
+
+
 [Ethereum Block Difficulty Chart](https://etherscan.io/chart/difficulty)
 
 ##Brief walkthrough on Go Programming Language
@@ -233,14 +238,19 @@ What is a forks?
 
 Every node on the network needs to have the same copy of the blockchain. So what happens when a new block gets mined on one node? Now the system has to replicate the new block to all the other nodes on the network so every node is in sync and has the same copy of the blockchain.
 
+<img src="images/blockchain-replication-simple-696x331.png">
 
 Since the blockchain needs to be replicated among all nodes in the network, the question arises – what happens if two nodes mine a block at the same time? This is when there’s a fork in the blockchain and the system needs to reconcile the fork and merge all the new blocks.
 
+<img src="images/blockchain-mining-collision-696x416.png">
 
 When a fork occurs, some nodes will get replicated from node A and some will get replicated from node B which will create the following scenario:
 
+<img src="images/blockchain-mining-fork-replication-696x431.png">
 
 We will use the rule that the longest chain will be accepted as the main chain. If there is a conflict between multiple nodes mining blocks at the same time, eventually, one chain will be longer and that will be accepted as the master blockchain. The other blocks that were mined on the shorter chain will be incorporated into the main blockchain.
+
+<img src="images/blockchain-mining-fork-longer-696x322.png">
 
 ##Blockchain Rest API/Websocket
 Duration: 2:50
