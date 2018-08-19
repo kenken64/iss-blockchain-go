@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>Build your own Blockchain (Golang Programming)</title>
-  <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="/elements/codelab.html">
+  <title>Build your own Blockchain (GoLang Programming)</title>
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="elements/codelab.html">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <style is="custom-style">
     body {
@@ -20,29 +20,44 @@
 </head>
 <body unresolved class="fullbleed">
 
-  <google-codelab title="Build your own Blockchain (Golang Programming)"
+  <google-codelab title="Build your own Blockchain (GoLang Programming)"
                   environment="web"
                   feedback-link="github.com/kenken64">
     
       <google-codelab-step label="Overview of the workshop" duration="1">
-        <p>This workshop shows you how to create your own blockchain. In this tutorial you will be doing the following:-</p>
+        <p>This workshop shows you how to create your own simple blockchain. In this tutorial you will be doing the following:-</p>
 <ul>
-<li>Understand various component of blockchain</li>
+<li>Understand various component of simple blockchain</li>
 <li>Link up all the components of the blockchain</li>
-<li>Define data structure of the blockchain component</li>
-<li>Implement various blockchain REST API end point for dapp and wallet integration</li>
-<li>Allow multiple blockchain nodes connect to the master node for block, chain and transaction synchronization</li>
+<li>Define data structure of the blockchain</li>
+<li>Implement blockchain REST API end point for integration</li>
+<li>Allow multiple blockchain nodes connect to the master node for block synchronization</li>
 </ul>
-<p>Pre-requisite</p>
+<h2>Pre-requisite</h2>
 <ul>
-<li>Go Language</li>
-<li>Node JS</li>
-<li>Microsoft Visual Studio Code</li>
+<li><a href="https://golang.org/dl/" target="_blank">Go Language</a></li>
+<li><a href="https://nodejs.org/en/download/" target="_blank">Node JS</a></li>
+<li><a href="https://code.visualstudio.com/download" target="_blank">Microsoft Visual Studio Code</a> / <a href="https://atom.io/" target="_blank">Atom</a> / <a href="https://www.jetbrains.com/go/download/#section=windows" target="_blank">GoLand</a></li>
 <li>Operating system: Linux/Windows/MacOS</li>
 </ul>
-<aside class="warning"><p>Test 123.</p>
-</aside>
-<aside class="special"><p>Test 4321.</p>
+<h2>Missing feature</h2>
+<ul>
+<li>Wallet Management - Generate Public and Private Key Infra</li>
+<li>Wallet synchronization</li>
+<li>Sign transaction</li>
+<li>Verify transaction</li>
+<li>Transaction synchronization across nodes</li>
+<li>Transaction Pool</li>
+<li>Difficulty adjustment for mining (transaction verification)</li>
+<li>Consensus Algorithm - criteria to place the transaction into the digital ledger</li>
+<li>A smart contract virtual machine</li>
+<li>An implementation where the Miner&#39;s mine() function only grabs a group of the transactions, and not the entire pool. When the subset of transactions from the pool is included in the chain, they would need to be cleared from the pool, and synchronized across all miners.</li>
+<li>Route the blockchain-approved reward transactions through its own dedicated server. That way, not everyone can create transactions through the special blockchain wallet.</li>
+<li>Transaction fee for mining process.</li>
+<li>Handle 51% attack to prevent double spending</li>
+</ul>
+<p>For all this missing feature please refer to the Javascript <a href="https://github.com/kenken64/MerlionCoin" target="_blank">version</a></p>
+<aside class="warning"><p>Please do not proceed without having all the pre-requisite and dependendies installed.<br></p>
 </aside>
 
 
@@ -54,24 +69,37 @@
 <li>Download Node JS from the following <a href="https://nodejs.org/en/download/" target="_blank">hyperlink</a> , select the correct platform based on your machine&#39;s operating system</li>
 <li>Install Node JS binaries</li>
 </ul>
-<h2>Install Golang</h2>
+<h2>Install GoLang</h2>
 <ul>
 <li>Download Golang from the following <a href="https://golang.org/dl/" target="_blank">hyperlink</a> , select the correct platform based on your machine&#39;s operating system</li>
 <li>Install Go Language binaries</li>
 </ul>
-<h2>Install Gomon</h2>
+<h2>Install Gomon  (Source code watcher)</h2>
 <ul>
 <li>Download Gomon from the following <a href="https://nodejs.org/en/download/" target="_blank">hyperlink</a> , select the correct platform based on your machine&#39;s operating system</li>
 <li>Install Gomon Node JS library</li>
 </ul>
 <pre><code>npm install -g go-mon
 </code></pre>
+<h2>GoLang Dependencies</h2>
+<h2>Get GoLang Web middleware - GIN</h2>
+<ul>
+<li>Install GIN library to your project home directory, further feature please refer to GIN documentation (https://github.com/gin-gonic/gin)</li>
+</ul>
+<pre><code>go get github.com/gin-gonic/gin
+</code></pre>
+<h2>Get GoLang Websocket - GORILLA</h2>
+<ul>
+<li>Install GORILLA libary to your project home directory, further feature please refer to GORILLA documentation (http://www.gorillatoolkit.org/pkg/websocket)</li>
+</ul>
+<pre><code>go get github.com/gorilla/websocket
+</code></pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="What the facts (WTF)" duration="5">
-        <h2>What is Blockchain</h2>
+        <h2>What is Blockchain?</h2>
 <p>a digital ledger in which transactions are recorded chronologically and publicly. A public permanent append-only distributed ledger</p>
 <p>For a cryptocurrency application, the ledger stores all transactions such as who transferred funds to who, similar to a bank ledger. Each set of transactions is represented as a block on the blockchain. A block can store multiple transactions.<br><a href="https://www.youtube.com/watch?v=SSo_EIwHSd4&t=76s" target="_blank"><br>View Video</a></p>
 <p>Once a transaction has been committed (mined) to the blockchain (ledger), it can&#39;t be edited or removed. Also, all nodes on the blockchain network keep a replicated copy of the blockchain so there is no central place where the block chain is stored. When a new block is added to the blockchain, all nodes in the blockchain network are updated to have the newest version of the blockchain.</p>
@@ -87,47 +115,454 @@
 <li>Transaction system for transferring funds between nodes secure wallets for storing a public-private key pair digital signatures (SHA-256) and payment verification</li>
 <li>Full suite of unit tests for every aspect of the system</li>
 </ul>
+<h2>Public and Private Key infrastructure</h2>
+<p>In blockchain public is the account address. Private key is used to transfer fund in other words is used to sign and verify the transaction. Private key is very important in blockchain it controls the funds.</p>
+<h2>Keeping your private keys secure</h2>
+<ul>
+<li>Paper wallet</li>
+<li>Backup</li>
+<li>Hardware (Mcafee hardware wallet got hacked recently)</li>
+<li>Online wallet (Hosting app run away with all the consumer&#39;s wallet)</li>
+</ul>
+<h2>Proof of Work – Blockchain Mining</h2>
+<p>A blockchain&#39;s uses proof-of-work as a way to ensure only valid blocks are added to a blockchain and to prevent dishonest nodes from adding blocks. Due to the decentralized nature of a blockchain, any node has a copy of the entire blockchain and can theoretically, add another block. Using proof-of-work makes it computationally expensive to add corrupt blocks.</p>
+<p><a href="https://www.youtube.com/watch?v=LgOo3nXsENQ" target="_blank">Youtube Video</a></p>
+<h2>Difficulty Level</h2>
+<p>There are different proof-of-work systems, but our blockchain uses a similar proof-of-work system that Bitcoin uses, Hashcash. The goal is to generate a hash with a certain number of leading zeros, which is the difficulty level.</p>
+<p>For example, if the difficulty level is three, then the miner needs to generate a hash with three leading zeros before being allowed to add a new block to the chain. The higher the difficulty level, the longer it will take to generate a hash that meets that criteria.</p>
+<h2>Nonce</h2>
+<p>The nonce value is iterated by one on every hash generation attempt. If the hash value satisfies the difficulty level, we save the nonce value in the block so other nodes can quickly validate the hash.</p>
+<h2>51% Attack</h2>
+<p><img src="img\4136636c159a1357.png"><br><br>A 51% attack could result if a dishonest party could control more than 50% of the computer nodes on the network resulting in the ability to compute hashes faster than any other nodes on the network. This could result in corruption of the blockchain and double spending. The more nodes there are on the network, the less likely this is to happen.</p>
+<p><img src="img\3141e8c4a1c66723.png"><br><img src="img\be282482053c90df.png"><br><img src="img\776c5c6cbb9fed93.png"><br><img src="img\4f2dd5aa471fa863.png"><br><img src="img\d5a81127d20b3093.png"><br><a href="https://www.youtube.com/watch?v=3TQ9Sfh-7kQ" target="_blank">Youtube Video</a></p>
+<h2>Dynamic Difficulty Level</h2>
+<p>The blockchain uses a dynamic difficulty level by increasing the difficulty level if blocks are mined too quickly and decreasing the difficulty level if blocks are mined too slowly. The blockchain&#39;s default mine rate is 3000 milliseconds and the difficulty level is adjusted based on whether blocks are mined faster or slower than this value.</p>
+<p>Our blockchain supports the idea of a dynamic difficulty level that changes over time, depending on how quickly blocks are added to the blockchain. Each block stores the difficulty level and the mine rate, which represents the rate at which blocks should be mined. Difficulty level will be adjusted by checking the difference between the current and previous blocks and increasing the difficulty level if the difference is below the target mine rate (to increase mining time) and decreasing the difficulty level if the difference is above the target mine rate (to decrease mining time).</p>
+<p><a href="https://etherscan.io/chart/difficulty" target="_blank">Ethereum Block Difficulty Chart</a></p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Brief walkthrough of Golang" duration="3">
-        
+      <google-codelab-step label="Brief walkthrough of GoLang" duration="3">
+        <h2>Golang Notes</h2>
+<ul>
+<li>short variable declaration :=</li>
+<li>Appending to a slice<br>⋅⋅⋅ func append(s []T, vs ...T) []T</li>
+<li>Go has pointers. A pointer holds the memory address of a value.</li>
+</ul>
+<p>The type *T is a pointer to a T value. Its zero value is nil.</p>
+<pre><code>var p *int
+</code></pre>
+<p>The &amp; operator generates a pointer to its operand.</p>
+<pre><code>i := 42
+p = &amp;i
+</code></pre>
+<p>The * operator denotes the pointer&#39;s underlying value.</p>
+<pre><code>fmt.Println(*p) // read i through the pointer p
+*p = 21         // set i through the pointer p
+</code></pre>
+<p>This is known as &#34;dereferencing&#34; or &#34;indirecting&#34;.</p>
+<p>Unlike C, Go has no pointer arithmetic.</p>
+<ul>
+<li>sprintf is string formatting</li>
+<li>Format use for time.Time parsing RFC3339     = &#34;2006-01-02T15:04:05Z07:00&#34;</li>
+<li>For each read we pick a key to access, Lock() the mutex to ensure exclusive access to the state, read the value at the chosen key, Unlock() the mutex, and increment the readOps count.<br>Wait a bit between reads.</li>
+</ul>
+
 
       </google-codelab-step>
     
       <google-codelab-step label="Block" duration="3">
-        <h2>Genesis Block</h2>
+        <p>The fundamental object of the blockchain is the block, which represents an individual link in the blockchain. The blockchain stores the following properties:</p>
+<ul>
+<li>current hash (based on the timestamp, hash of previous block and transactions)</li>
+<li>hash of the previous block</li>
+<li>timestamp</li>
+<li>data to store (cryptocurrency transactions but can store generic data, as well)</li>
+<li>nonce value (for mining new blocks)</li>
+<li>difficulty value (for mining new blocks)</li>
+</ul>
+<h2>Genesis Block</h2>
+<p>The Genesis Block is the very first block in a blockchain – a way to start a blockchain. Since there&#39;s no preceding block, the genesis block uses hard coded dummy values for its previous hash value. This way, when the second block gets added to the blockchain, it will set the value of its previous hash to the hash of the genesis block. Since the genesis block is hard coded, we make it a static method of the Block class, so it&#39;s accessible without instantiating a Block object.</p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="The chain (blockchain)" duration="3">
-        
+      <google-codelab-step label="Blockchain" duration="3">
+        <p>The Blockchain class is responsible for storing the list of blocks on the blockchain adding new blocks to the chain validating new blockschains replacing current blockchain with a new one (when synchronizing with other nodes).</p>
+
 
       </google-codelab-step>
     
       <google-codelab-step label="Blockchain replication" duration="3">
         <p>What is a forks?</p>
+<p>Every node on the network needs to have the same copy of the blockchain. So what happens when a new block gets mined on one node? Now the system has to replicate the new block to all the other nodes on the network so every node is in sync and has the same copy of the blockchain.</p>
+<p>Since the blockchain needs to be replicated among all nodes in the network, the question arises – what happens if two nodes mine a block at the same time? This is when there&#39;s a fork in the blockchain and the system needs to reconcile the fork and merge all the new blocks.</p>
+<p>When a fork occurs, some nodes will get replicated from node A and some will get replicated from node B which will create the following scenario:</p>
+<p>We will use the rule that the longest chain will be accepted as the main chain. If there is a conflict between multiple nodes mining blocks at the same time, eventually, one chain will be longer and that will be accepted as the master blockchain. The other blocks that were mined on the shorter chain will be incorporated into the main blockchain.</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Blockchain Rest API/Websocket" duration="3">
-        <h2>List of examples</h2>
+        <p>The web application expose a series of JSON endpoints that will allow each node on the network to interact with the blockchain with its own HTTP server.</p>
+<h2>List of RPC API</h2>
 <ul>
-<li><a href="https://github.com/ethereum/web3.js/" target="_blank">Ethereum</a></li>
-<li><a href="https://cardanodocs.com/technical/wallet/api/v1/" target="_blank">Cardano ADA</a></li>
-<li><a href="https://cardanodocs.com/technical/wallet/api/v1/" target="_blank">Stellar</a></li>
+<li><a href="https://github.com/ethereum/web3.js/" target="_blank">Ethereum Web3</a></li>
+<li><a href="https://cardanodocs.com/technical/wallet/api/v1/" target="_blank">Cardano ADA RPC</a></li>
+<li><a href="https://cardanodocs.com/technical/wallet/api/v1/" target="_blank">Stellar RPC</a></li>
 </ul>
 <h2>JSON-RPC</h2>
 <p>JSON-RPC is a type of RPC protocol which uses JSON to encode requests and responses between client and server. The JSON-RPC v2.0 specification was released in 2010 and aims to provide a simple RPC mechanism.</p>
+<p>POST /transact – add cryptocurrency transaction to the transaction pool<br>The code for the web application is in src/app/index.ts:</p>
+<h2>Peer-to-Peer Server</h2>
+<p>Each node on the blockchain network needs the ability to communicate with other nodes (peers) on the network in order to:</p>
+<ul>
+<li>Get an updated blockchain from its peers</li>
+<li>Broadcasting to other nodes when it has an updated version of the blockchain</li>
+<li>Each peer-to-peer server uses web sockets instead of HTTP to communicate with each node.</li>
+</ul>
+<p>Blockchain synchronization between nodes is done by sending a synchronization message to other nodes as soon as new block is mined on any node. However, before a node replaces its blockchain from an update it received from one of its peers, it needs to check that the updated chain is longer than its current chain and that the new blockchain is valid (by validating its hashes). For new nodes that just join the network, they get an updated version of the blockchain from one of its peers.</p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Workshop" duration="120">
-        
+      <google-codelab-step label="Workshop" duration="30">
+        <p>In this workshop, you will write your blockchain in Google&#39;s Go Programming language. Define your own blockchain data structure, form your blockchain functionalities, create your transaction management, provide rest API and lastly blockchain data synchronisation. Let us all recap how a transaction works between two or more parties in a traditional banking transfer system vs blockchain.</p>
+<h2>Today&#39;s banking system (Remittance Cycle)</h2>
+<p><img src="img\4daff8cafcaa62dd.png"></p>
+<p><strong>Q: What if the banking software crash? </strong></p>
+<p>A: Of course definitely there is a downtime and recovery process takes place in the bank. A customer won&#39;t able to perform fund transfer during that time. All customer have to wait until the system is fully up and operational. That leads to a single point of failure in my opinion.</p>
+<p><strong>Q: Looks like there is a lot of parties involved in between this wire transfer cycle?</strong></p>
+<p>A: Yes the seller&#39;s bank and the buyer&#39;s bank. Sometimes we might have a clearinghouse as well. With all these dependencies in place that is the reason why bank need 1-2 working days to clear the funds abroad.</p>
+<h2>Blockchain scenario (CryptoCurrency)</h2>
+<p>Shows how transaction happens on the blockchain network:-</p>
+<p><img src="img\2d9d1926d91629e6.png"></p>
+<p>All transactions record are publicly available. Every single transfer is recorded on the distributed ledger.</p>
+<p><strong>Q: Which technology has the most transparency if a side by side comparison is done?</strong></p>
+<p>A: Definitely not the banking system, if there are a fraud and insider job in the bank it has to wait till an audit exercise to discover as an incident. Therefore blockchain is an evolution. An effective e-commerce platform is overdue without an evolution and well-integrated payment technology with transparency.</p>
+<h2>Developing your own Blockchain</h2>
+<p>Define a data structure to hold all your blockchain data</p>
+<p>A Block struct with the following members</p>
+<p><img src="img\45e785e87a6f31ca.png"></p>
+<p>A Blockchain struct with the following members</p>
+<p><img src="img\386285bb789948ad.png"></p>
+<p>A Transaction struct with the following members</p>
+<p><img src="img\d3d232ad1a6b1ab3.png"></p>
+<h2>Requirement</h2>
+<ul>
+<li>Define a type where is a list of the Block structure.</li>
+<li>Define a function NewBlock to instantiate new Block structure and return the structure. This function takes in three parameters.</li>
+<li>Define a function NewTranaction to instantiate a new Transaction structure and return the structure. This function takes in three parameters.</li>
+<li>Create a interface name it as Chain with the following implementation functions<ul>
+<li>AddBlock(block *Block)</li>
+<li>GetLastBlock() *Block</li>
+<li>GetBlocks() Blocks</li>
+<li>IsChainValid() bool<br><br></li>
+</ul>
+</li>
+<li>Define a function NewBlockchain to instantiate new Chain Interface and return the Blockchain structure. This function takes in no parameters. In fact, in this function, we need to create a genesis block and also add the genesis block into the blockchain list.</li>
+<li>Define a function that hashes every single block in the blockchain.</li>
+<li>Define a function consist of blocks within a blockchain structure. Take in one parameter the Block. Pointer concept to be tested here.</li>
+<li>Define a function that returns all the blocks</li>
+<li>Define a function that returns the last block from the blockchain</li>
+<li>Define a function that all the block in the chain is valid</li>
+<li>Define 3 rest API endpoint using GIN<ul>
+<li>/blocks <strong>GET</strong></li>
+<li>/pay <strong>POST</strong> with payload</li>
+<li>/is-chain-valid <strong>GET</strong></li>
+<li>/ws <strong>GET</strong> - data synchronization</li>
+</ul>
+</li>
+</ul>
+<aside class="special"><p>Implement the blocks synchronization logic using Gorilla. Sync the blocks data across via WebSocket.</p>
+</aside>
+<aside class="warning"><p>Do not need to implement a complete P2P data synchronization.<br></p>
+</aside>
+<aside class="special"><p>Spawn off another node that connect to the server node, make a transfer on the master node and witness the blocks synchronization takes place.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Workshop Solution" duration="120">
+        <p><a href="https://github.com/kenken64/iss-blockchain-go" target="_blank">Github</a></p>
+<h2>Full Source code</h2>
+<pre><code>package main
+
+import (
+    &#34;crypto/sha256&#34;
+    &#34;encoding/json&#34;
+    &#34;flag&#34;
+    &#34;fmt&#34;
+    &#34;net/http&#34;
+    &#34;os&#34;
+    &#34;sync&#34;
+    &#34;time&#34;
+
+    &#34;github.com/gin-gonic/gin&#34;
+    &#34;github.com/gorilla/websocket&#34;
+)
+
+// data structure of the block
+type Block struct {
+    Index      int         `json:&#34;index&#34;`
+    Timestamp  time.Time   `json:&#34;date&#34;`
+    LastHash   string      `json:&#34;prevHash&#34;`
+    Hash       string      `json:&#34;hash&#34;`
+    Data       interface{} `json:&#34;transaction&#34;`
+    nonce      uint32
+    difficulty int
+}
+
+// list of blockchains
+type Blocks []*Block
+
+var mutex = &amp;sync.Mutex{}
+
+// interface consist all the function of the blockchain struct
+type Chain interface {
+    AddBlock(block *Block)
+    GetLastBlock() *Block
+    GetBlocks() Blocks
+    IsChainValid() bool
+}
+
+type BlockChain struct {
+    Blocks Blocks `json:&#34;Blocks&#34;`
+}
+
+type Transaction struct {
+    From   string  `json:&#34;from&#34;`
+    To     string  `json:&#34;to&#34;`
+    Amount float64 `json:&#34;amount&#34;`
+    Date   time.Time
+}
+
+func NewBlock(index int, data interface{},
+    timestamp time.Time) *Block {
+    return &amp;Block{
+        Index:     index,
+        Timestamp: timestamp,
+        Data:      data,
+    }
+}
+
+func NewTransaction(from string, to string, amount float64) *Transaction {
+    return &amp;Transaction{
+        From:   from,
+        To:     to,
+        Amount: amount,
+        Date:   time.Now(),
+    }
+}
+
+func (b *Block) createHash() string {
+    d := fmt.Sprintf(&#34;%v%v%v%v&#34;, b.Index, b.LastHash, b.Timestamp, b.Data)
+    h := sha256.New()
+    h.Write([]byte(d))
+    return fmt.Sprintf(&#34;%x&#34;, h.Sum(nil))
+}
+
+func NewBlockChain() Chain {
+    date, error := time.Parse(time.RFC3339, &#34;2018-08-20T22:08:41+00:00&#34;)
+    if error != nil {
+        panic(error)
+    }
+    // create genesis block
+    genesisBlock := NewBlock(0, &#34;Genesis Block&#34;, date)
+    genesisBlock.LastHash = &#34;0&#34;
+    genesisBlock.Hash = genesisBlock.createHash()
+
+    var blocks Blocks
+    blocks = append(blocks, genesisBlock)
+
+    return &amp;BlockChain{
+        Blocks: blocks,
+    }
+}
+
+func (b *BlockChain) AddBlock(block *Block) {
+    block.LastHash = b.GetLastBlock().Hash
+    block.Hash = block.createHash()
+    b.Blocks = append(b.Blocks, block)
+}
+
+func (b *BlockChain) GetLastBlock() *Block {
+    return b.Blocks[len(b.Blocks)-1]
+}
+
+func (b *BlockChain) GetBlocks() Blocks {
+    return b.Blocks
+}
+
+func (b *BlockChain) IsChainValid() bool {
+    for i := 1; i &lt; len(b.Blocks); i++ {
+        currentBlock := b.Blocks[i]
+        prevBlock := b.Blocks[i-1]
+
+        if currentBlock.Hash != currentBlock.createHash() {
+            return false
+        }
+
+        if currentBlock.LastHash != prevBlock.Hash {
+            return false
+        }
+    }
+
+    return true
+}
+
+var wsupgrader = websocket.Upgrader{
+    ReadBufferSize:  1024,
+    WriteBufferSize: 1024,
+    CheckOrigin:     func(r *http.Request) bool { return true },
+}
+
+func wshandler(w http.ResponseWriter, r *http.Request, b Chain) {
+    conn, err := wsupgrader.Upgrade(w, r, nil)
+    if err != nil {
+        fmt.Println(&#34;Failed to set websocket upgrade: %+v&#34;, err)
+        return
+    }
+    //defer conn.Close()
+
+    go func() {
+        for {
+            _, message, error := conn.ReadMessage()
+            if error != nil {
+                fmt.Println(&#34;read: &#34;, error)
+                return
+            }
+            time.Sleep(2 * time.Second)
+            fmt.Println(&#34;message:&#34;, string(message))
+            for _, bb := range b.GetBlocks() {
+                b, err := json.Marshal(bb)
+                if err != nil {
+                    fmt.Println(err)
+                    return
+                }
+                conn.WriteJSON(string(b))
+            }
+
+        }
+    }()
+}
+
+func main() {
+    fmt.Println(&#34;[ Starting Blockchain API Server ]&#34;)
+    // Instantiate a new blockchain
+    blockchain := NewBlockChain()
+    r := gin.Default()
+
+    help := flag.Bool(&#34;help&#34;, false, &#34;Display Help&#34;)
+    host := flag.String(&#34;h&#34;, &#34;&#34;, &#34;Host Address and Port&#34;)
+    dest := flag.String(&#34;d&#34;, &#34;&#34;, &#34;Dest MultiAddr String&#34;)
+    flag.Parse()
+    if *help {
+        fmt.Printf(&#34;This program demonstrates a simple blockchain\n\n&#34;)
+        fmt.Printf(&#34;Usage: Run &#39;./blockchain -h &lt;hostname:port&gt; -d &lt;peershost:port&gt;\n&#34;)
+
+        os.Exit(0)
+    }
+
+    blocksSize := len(blockchain.GetBlocks())
+    fmt.Println(&#34;Total block size : &#34;, blocksSize)
+    fmt.Println(&#34;readsssss:&#34;, *dest)
+    if *dest != &#34;&#34; {
+        URL := &#34;ws://&#34; + *dest + &#34;/ws&#34;
+
+        var dialer *websocket.Dialer
+
+        conn, _, err := dialer.Dial(URL, nil)
+        //defer conn.Close()
+        go func() {
+
+            if err != nil {
+                fmt.Println(err)
+                return
+            }
+            for {
+                b, err := json.Marshal(blockchain.GetBlocks())
+                if err != nil {
+                    fmt.Println(err)
+                    return
+                }
+
+                conn.WriteJSON(b)
+                //i := Block{}
+                var jsonStr = &#34;&#34;
+                err2 := conn.ReadJSON(&amp;jsonStr)
+
+                if err2 != nil {
+                    fmt.Println(&#34;read:&#34;, err2)
+                    return
+                }
+                fmt.Println(jsonStr)
+            }
+        }()
+    }
+
+    r.GET(&#34;/ws&#34;, func(c *gin.Context) {
+        wshandler(c.Writer, c.Request, blockchain)
+    })
+
+    r.GET(&#34;/blocks&#34;, func(c *gin.Context) {
+        currentBlocks := blockchain.GetBlocks()
+        var interfaceSlice []interface{} = make([]interface{}, len(currentBlocks))
+        for i := range currentBlocks {
+            blockJson := &amp;Block{
+                Index:     currentBlocks[i].Index,
+                Timestamp: currentBlocks[i].Timestamp,
+                LastHash:  currentBlocks[i].LastHash,
+                Hash:      currentBlocks[i].Hash,
+                Data:      currentBlocks[i].Data,
+            }
+            interfaceSlice[i] = blockJson
+        }
+
+        c.JSON(http.StatusOK, gin.H{&#34;blocks&#34;: interfaceSlice})
+    })
+
+    r.POST(&#34;/pay&#34;, func(c *gin.Context) {
+        var incomingTransaction Transaction
+        c.BindJSON(&amp;incomingTransaction)
+        transfer := incomingTransaction
+        lengthOfChain := len(blockchain.GetBlocks())
+        indexblock := lengthOfChain + 1
+        transferBlock := NewBlock(indexblock, transfer, time.Now())
+        blockchain.AddBlock(transferBlock)
+        c.JSON(http.StatusOK, gin.H{&#34;transferedValidity&#34;: blockchain.IsChainValid()})
+    })
+
+    r.GET(&#34;/is-chain-valid&#34;, func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{&#34;chain-validity&#34;: blockchain.IsChainValid()})
+    })
+
+    fmt.Println(&#34;Hostname and Port &#34;, dest)
+    var finalPortAssignment = &#34;localhost:3005&#34;
+    if *host != &#34;&#34; {
+        finalPortAssignment = *host
+        fmt.Println(&#34;default Hostname and Port &#34;, finalPortAssignment)
+    }
+
+    r.Run(finalPortAssignment)
+}
+
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Workshop Bonus" duration="0">
+        <h2>Setup Flutter</h2>
+<p>Please follow the setup on the following <a href="https://flutter.io/get-started/install/" target="_blank">website</a></p>
+<ul>
+<li>Git clone the flutter wallet app from the following <a href="https://github.com/kenken64/iss-blockchain-wallet" target="_blank">Github</a> repository.</li>
+<li>Implement the transfer functionality using http <strong>POST</strong> calling the blockchain master node&#39;s rest API.</li>
+<li>List all the blocks on the history tab of the wallet app.</li>
+</ul>
+
 
       </google-codelab-step>
     

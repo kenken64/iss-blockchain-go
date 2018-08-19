@@ -2,14 +2,13 @@
   "environment": "web",
   "source": "blockchain-iss.md",
   "format": "html",
-  "prefix": "../../",
   "mainga": "UA-49880327-14",
-  "updated": "2018-08-14T12:36:42+08:00",
+  "updated": "2018-08-19T21:58:04+08:00",
   "id": "282878",
-  "duration": 142,
-  "title": "Build your own Blockchain (Golang Programming)",
+  "duration": 172,
+  "title": "Build your own Blockchain (GoLang Programming)",
   "author": "Kenneth Phang Tak Yan",
-  "summary": "Build your own Blockchain (Golang Programming)",
+  "summary": "Build your own Blockchain (GoLang Programming)",
   "theme": "",
   "status": [
     "draft"
