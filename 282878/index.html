@@ -24,7 +24,7 @@
                   environment="web"
                   feedback-link="github.com/kenken64">
     
-      <google-codelab-step label="Overview of the workshop" duration="1">
+      <google-codelab-step label="Overview of the workshop" duration="16">
         <p>This workshop shows you how to create your own simple blockchain. In this tutorial you will be doing the following:-</p>
 <ul>
 <li>Understand various component of simple blockchain</li>
@@ -63,7 +63,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Getting setup" duration="1">
+      <google-codelab-step label="Getting setup" duration="36">
         <h2>Install Node JS</h2>
 <ul>
 <li>Download Node JS from the following <a href="https://nodejs.org/en/download/" target="_blank">hyperlink</a> , select the correct platform based on your machine&#39;s operating system</li>
@@ -98,7 +98,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="What the facts (WTF)" duration="5">
+      <google-codelab-step label="What the facts (WTF)" duration="21">
         <h2>What is Blockchain?</h2>
 <p>a digital ledger in which transactions are recorded chronologically and publicly. A public permanent append-only distributed ledger</p>
 <p>For a cryptocurrency application, the ledger stores all transactions such as who transferred funds to who, similar to a bank ledger. Each set of transactions is represented as a block on the blockchain. A block can store multiple transactions.<br><a href="https://www.youtube.com/watch?v=SSo_EIwHSd4&t=76s" target="_blank"><br>View Video</a></p>
@@ -144,8 +144,22 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Brief walkthrough on Go Programming Language" duration="3">
-        <p>This walkthrough is to run through all the keyword and programming rules sufficient enough for us to build this workshop.</p>
+      <google-codelab-step label="Brief walkthrough on Go Programming Language" duration="90">
+        <p>Using Tour of Go to run through some of the important concepts in <a href="https://tour.golang.org/" target="_blank">Golang</a></p>
+<ul>
+<li>Packages</li>
+<li>Imports</li>
+<li>function</li>
+<li>main func</li>
+<li>Short var declaration</li>
+<li>Type inference</li>
+<li>Type conversions</li>
+<li>Struct and slices</li>
+<li>Errors &amp; Panic</li>
+<li>Interfaces</li>
+<li>Pointers and function</li>
+<li>Go routine (Concurrency)</li>
+</ul>
 <h2>Golang Notes</h2>
 <ul>
 <li>short variable declaration :=</li>
@@ -174,7 +188,7 @@ p = &amp;i
 
       </google-codelab-step>
     
-      <google-codelab-step label="Block" duration="3">
+      <google-codelab-step label="Block" duration="16">
         <p>The fundamental object of the blockchain is the block, which represents an individual link in the blockchain. The blockchain stores the following properties:</p>
 <ul>
 <li>current hash (based on the timestamp, hash of previous block and transactions)</li>
@@ -190,7 +204,7 @@ p = &amp;i
 
       </google-codelab-step>
     
-      <google-codelab-step label="Blockchain" duration="3">
+      <google-codelab-step label="Blockchain" duration="16">
         <p>The Blockchain class is responsible for</p>
 <ul>
 <li>storing the list of blocks on the blockchain</li>
@@ -202,7 +216,7 @@ p = &amp;i
 
       </google-codelab-step>
     
-      <google-codelab-step label="Blockchain replication" duration="3">
+      <google-codelab-step label="Blockchain replication" duration="20">
         <p>What is a forks?</p>
 <p>Every node on the network needs to have the same copy of the blockchain. So what happens when a new block gets mined on one node? Now the system has to replicate the new block to all the other nodes on the network so every node is in sync and has the same copy of the blockchain.</p>
 <p><img src="img\b2388a31bbd6f95.png"></p>
@@ -216,7 +230,7 @@ p = &amp;i
 
       </google-codelab-step>
     
-      <google-codelab-step label="Blockchain Rest API/Websocket" duration="3">
+      <google-codelab-step label="Blockchain Rest API/Websocket" duration="15">
         <p>The web application expose a series of JSON endpoints that will allow each node on the network to interact with the blockchain with its own HTTP server.</p>
 <h2>List of RPC API</h2>
 <ul>
@@ -239,7 +253,7 @@ p = &amp;i
 
       </google-codelab-step>
     
-      <google-codelab-step label="Workshop" duration="30">
+      <google-codelab-step label="Workshop" duration="45">
         <p>In this workshop, you will write your blockchain in Google&#39;s Go Programming language. Define your own blockchain data structure, form your blockchain functionalities, create your transaction management, provide rest API and lastly blockchain data synchronisation. Let us all recap how a transaction works between two or more parties in a traditional banking transfer system vs blockchain.</p>
 <h2>Today&#39;s banking system (Remittance Cycle)</h2>
 <p><img src="img\4daff8cafcaa62dd.png"></p>
@@ -297,7 +311,7 @@ p = &amp;i
 
       </google-codelab-step>
     
-      <google-codelab-step label="Workshop Solution" duration="120">
+      <google-codelab-step label="Workshop Solution" duration="300">
         <p><a href="https://github.com/kenken64/iss-blockchain-go" target="_blank">Github</a></p>
 <h2>Full Source code</h2>
 <pre><code>package main
@@ -566,7 +580,7 @@ func main() {
 
       </google-codelab-step>
     
-      <google-codelab-step label="Workshop Bonus" duration="0">
+      <google-codelab-step label="Workshop Bonus" duration="60">
         <h2>Setup Flutter</h2>
 <p>Please follow the setup on the following <a href="https://flutter.io/get-started/install/" target="_blank">website</a></p>
 <ul>

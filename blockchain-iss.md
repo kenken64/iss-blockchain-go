@@ -10,7 +10,7 @@ analytics account: 0
 # Build your own Blockchain (GoLang Programming)
 
 ## Overview of the workshop
-Duration: 0:05
+Duration: 15:05
 
 This workshop shows you how to create your own simple blockchain. In this tutorial you will be doing the following:-
 
@@ -50,7 +50,7 @@ Negative
 
 
 ## Getting setup 
-Duration: 0:08
+Duration: 35:08
 
 ### Install Node JS
 
@@ -89,7 +89,7 @@ go get github.com/gorilla/websocket
 ```
 
 ## What the facts (WTF) 
-Duration: 4:50
+Duration: 20:50
 
 ###What is Blockchain?
 a digital ledger in which transactions are recorded chronologically and publicly. A public permanent append-only distributed ledger
@@ -169,9 +169,22 @@ Our blockchain supports the idea of a dynamic difficulty level that changes over
 [Ethereum Block Difficulty Chart](https://etherscan.io/chart/difficulty)
 
 ##Brief walkthrough on Go Programming Language
-Duration: 2:50
+Duration: 90:0
 
-This walkthrough is to run through all the keyword and programming rules sufficient enough for us to build this workshop.
+Using Tour of Go to run through some of the important concepts in [Golang](https://tour.golang.org/)
+
+* Packages
+* Imports
+* function
+* main func
+* Short var declaration
+* Type inference
+* Type conversions
+* Struct and slices
+* Errors & Panic
+* Interfaces
+* Pointers and function
+* Go routine (Concurrency)
 
 ### Golang Notes
 
@@ -208,7 +221,7 @@ fmt.Println(*p) // read i through the pointer p
 Wait a bit between reads.
 
 ##Block
-Duration: 2:50
+Duration: 15:50
 
 The fundamental object of the blockchain is the block, which represents an individual link in the blockchain. The blockchain stores the following properties:
 
@@ -223,7 +236,7 @@ The fundamental object of the blockchain is the block, which represents an indiv
 
 The Genesis Block is the very first block in a blockchain – a way to start a blockchain. Since there’s no preceding block, the genesis block uses hard coded dummy values for its previous hash value. This way, when the second block gets added to the blockchain, it will set the value of its previous hash to the hash of the genesis block. Since the genesis block is hard coded, we make it a static method of the Block class, so it’s accessible without instantiating a Block object.
 ##Blockchain
-Duration: 2:50
+Duration: 15:50
 
 The Blockchain class is responsible for 
 * storing the list of blocks on the blockchain 
@@ -232,7 +245,7 @@ The Blockchain class is responsible for
 * replacing current blockchain with a new one (when synchronizing with other nodes). 
 
 ##Blockchain replication
-Duration: 2:50
+Duration: 20:0
 
 What is a forks?
 
@@ -253,7 +266,7 @@ We will use the rule that the longest chain will be accepted as the main chain. 
 <img src="images/blockchain-mining-fork-longer-696x322.png">
 
 ##Blockchain Rest API/Websocket
-Duration: 2:50
+Duration: 15:0
 
 The web application expose a series of JSON endpoints that will allow each node on the network to interact with the blockchain with its own HTTP server.
 
@@ -280,7 +293,7 @@ Each node on the blockchain network needs the ability to communicate with other 
 Blockchain synchronization between nodes is done by sending a synchronization message to other nodes as soon as new block is mined on any node. However, before a node replaces its blockchain from an update it received from one of its peers, it needs to check that the updated chain is longer than its current chain and that the new blockchain is valid (by validating its hashes). For new nodes that just join the network, they get an updated version of the blockchain from one of its peers.
 
 ##Workshop
-Duration: 30:0
+Duration: 45:0
 
 
 In this workshop, you will write your blockchain in Google’s Go Programming language. Define your own blockchain data structure, form your blockchain functionalities, create your transaction management, provide rest API and lastly blockchain data synchronisation. Let us all recap how a transaction works between two or more parties in a traditional banking transfer system vs blockchain.
@@ -374,7 +387,7 @@ Positive
 : Spawn off another node that connect to the server node, make a transfer on the master node and witness the blocks synchronization takes place. 
 
 ##Workshop Solution
-Duration: 120:0
+Duration: 300:0
 
 [Github](https://github.com/kenken64/iss-blockchain-go)
 
@@ -645,6 +658,7 @@ func main() {
 ```
 
 ##Workshop Bonus
+Duration: 60:0
 
 ###Setup Flutter
 
