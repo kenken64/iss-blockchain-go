@@ -1,3 +1,6 @@
+###Workshop Google Codelabs
+[Workshop](https://bit.ly/2MHxKmp)
+
 ### Pre-requisite
 * Install NodeJS for Gomon
 * Install Golang (https://golang.org/dl/)
