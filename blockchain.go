@@ -1,10 +1,16 @@
 package main
 
 import (
+	"bytes"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
 	"crypto/sha256"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
+	"math/big"
 	"net/http"
 	"os"
 	"sync"
@@ -12,6 +18,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"golang.org/x/crypto/ripemd160"
 )
 
 // data structure of the block
@@ -47,6 +54,15 @@ type Transaction struct {
 	To     string  `json:"to"`
 	Amount float64 `json:"amount"`
 	Date   time.Time
+}
+
+const version = byte(0x00)
+const addressChecksumLen = 4
+
+// Wallet stores private and public keys
+type Wallet struct {
+	PrivateKey ecdsa.PrivateKey
+	PublicKey  []byte
 }
 
 func NewBlock(index int, data interface{},
@@ -121,6 +137,112 @@ func (b *BlockChain) IsChainValid() bool {
 	}
 
 	return true
+}
+
+// NewWallet creates and returns a Wallet
+func NewWallet() *Wallet {
+	private, public := newKeyPair()
+	wallet := Wallet{private, public}
+
+	return &wallet
+}
+
+var b58Alphabet = []byte("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz")
+
+// Base58Encode encodes a byte array to Base58
+func Base58Encode(input []byte) []byte {
+	var result []byte
+
+	x := big.NewInt(0).SetBytes(input)
+
+	base := big.NewInt(int64(len(b58Alphabet)))
+	zero := big.NewInt(0)
+	mod := &big.Int{}
+
+	for x.Cmp(zero) != 0 {
+		x.DivMod(x, base, mod)
+		result = append(result, b58Alphabet[mod.Int64()])
+	}
+
+	// https://en.bitcoin.it/wiki/Base58Check_encoding#Version_bytes
+	if input[0] == 0x00 {
+		result = append(result, b58Alphabet[0])
+	}
+
+	ReverseBytes(result)
+
+	return result
+}
+
+// Base58Decode decodes Base58-encoded data
+func Base58Decode(input []byte) []byte {
+	result := big.NewInt(0)
+
+	for _, b := range input {
+		charIndex := bytes.IndexByte(b58Alphabet, b)
+		result.Mul(result, big.NewInt(58))
+		result.Add(result, big.NewInt(int64(charIndex)))
+	}
+
+	decoded := result.Bytes()
+
+	if input[0] == b58Alphabet[0] {
+		decoded = append([]byte{0x00}, decoded...)
+	}
+
+	return decoded
+}
+
+// ReverseBytes reverses a byte array
+func ReverseBytes(data []byte) {
+	for i, j := 0, len(data)-1; i < j; i, j = i+1, j-1 {
+		data[i], data[j] = data[j], data[i]
+	}
+}
+
+// GetAddress returns wallet address
+func (w Wallet) GetAddress() []byte {
+	pubKeyHash := HashPubKey(w.PublicKey)
+
+	versionedPayload := append([]byte{version}, pubKeyHash...)
+	checksum := checksum(versionedPayload)
+
+	fullPayload := append(versionedPayload, checksum...)
+	address := Base58Encode(fullPayload)
+
+	return address
+}
+
+// HashPubKey hashes public key
+func HashPubKey(pubKey []byte) []byte {
+	publicSHA256 := sha256.Sum256(pubKey)
+
+	RIPEMD160Hasher := ripemd160.New()
+	_, err := RIPEMD160Hasher.Write(publicSHA256[:])
+	if err != nil {
+		log.Panic(err)
+	}
+	publicRIPEMD160 := RIPEMD160Hasher.Sum(nil)
+
+	return publicRIPEMD160
+}
+
+func checksum(payload []byte) []byte {
+	firstSHA := sha256.Sum256(payload)
+	secondSHA := sha256.Sum256(firstSHA[:])
+
+	return secondSHA[:addressChecksumLen]
+}
+
+func newKeyPair() (ecdsa.PrivateKey, []byte) {
+	curve := elliptic.P256()
+	private, err := ecdsa.GenerateKey(curve, rand.Reader)
+	if err != nil {
+		log.Panic(err)
+	}
+	pubKey := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
+
+	return *private, pubKey
 }
 
 var wsupgrader = websocket.Upgrader{
@@ -219,30 +341,25 @@ func main() {
 
 	r.GET("/blocks", func(c *gin.Context) {
 		currentBlocks := blockchain.GetBlocks()
-		var interfaceSlice []interface{} = make([]interface{}, len(currentBlocks))
-		for i := range currentBlocks {
-			blockJson := &Block{
-				Index:     currentBlocks[i].Index,
-				Timestamp: currentBlocks[i].Timestamp,
-				LastHash:  currentBlocks[i].LastHash,
-				Hash:      currentBlocks[i].Hash,
-				Data:      currentBlocks[i].Data,
-			}
-			interfaceSlice[i] = blockJson
-		}
-
-		c.JSON(http.StatusOK, gin.H{"blocks": interfaceSlice})
+		c.JSON(http.StatusOK, gin.H{"blocks": currentBlocks})
 	})
 
 	r.POST("/pay", func(c *gin.Context) {
+		var err error
 		var incomingTransaction Transaction
-		c.BindJSON(&incomingTransaction)
-		transfer := incomingTransaction
+		if err = c.BindJSON(&incomingTransaction); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":  "json decoding : " + err.Error(),
+				"status": http.StatusBadRequest,
+			})
+			return
+		}
 		lengthOfChain := len(blockchain.GetBlocks())
-		indexblock := lengthOfChain + 1
-		transferBlock := NewBlock(indexblock, transfer, time.Now())
+		indexBlock := lengthOfChain + 1
+		xferTransaction := NewTransaction(incomingTransaction.From, incomingTransaction.To, incomingTransaction.Amount)
+		transferBlock := NewBlock(indexBlock, xferTransaction, time.Now())
 		blockchain.AddBlock(transferBlock)
-		c.JSON(http.StatusOK, gin.H{"transferedValidity": blockchain.IsChainValid()})
+		c.JSON(http.StatusOK, gin.H{"transferValidity": blockchain.IsChainValid()})
 	})
 
 	r.GET("/is-chain-valid", func(c *gin.Context) {
