@@ -43,7 +43,7 @@ go run blockchain.go
 
 ### Compile the golang source code into binary file, execute the program in binary mode
 ```
-go build blockchain.go
+go build blockchain.go utils.go base58.go
 chmod +x blockchain
 ./blockchain -h localhost:3001
 ./blockchain -h localhost:3002 -d localhost:3001
@@ -51,8 +51,8 @@ chmod +x blockchain
 
 ### Node synchornization using client server rather p2p
 ```
-go run blockchain.go -h localhost:3001
-go run blockchain.go -h localhost:3002 -d localhost:3001
+go run blockchain.go utils.go base58.go -h localhost:3001
+go run blockchain.go utils.go base58.go -h localhost:3002 -d localhost:3001
 ```
 
 
