@@ -65,7 +65,7 @@ Duration: 35:08
 
 ### Install Gomon  (Source code watcher)
 
-* Download Gomon from the following [hyperlink] (https://nodejs.org/en/download/) , select the correct platform based on your machine's operating system
+* Download Gomon npm libraries from the following [hyperlink] (https://github.com/johannesboyne/gomon) , select the correct platform based on your machine's operating system
 * Install Gomon Node JS library
 
 ``` bash
@@ -653,6 +653,167 @@ func main() {
 	}
 
 	r.Run(finalPortAssignment)
+}
+
+```
+
+###Current version
+```go
+package main
+
+import (
+	"crypto/sha256"
+	//"encoding/json"
+	"fmt"
+	"net/http"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	//"github.com/gorilla/websocket"
+)
+
+// data structure of the block
+type Block struct {
+	Index      int         `json:"index"`
+	Timestamp  time.Time   `json:"date"`
+	LastHash   string      `json:"prevHash"`
+	Hash       string      `json:"hash"`
+	Data       interface{} `json:"transaction"`
+	nonce      uint32
+	difficulty int
+}
+
+// list  of blockchain
+type Blocks []*Block
+
+type Chain interface {
+	AddBlock(block *Block)
+	GetLastBlock() *Block
+	GetBlocks() Blocks
+	IsChainValid() bool
+}
+
+type BlockChain struct {
+	Blocks Blocks `json:"Blocks"`
+}
+
+type Transaction struct {
+	From   string  `json:"from"`
+	To     string  `json:"to"`
+	Amount float64 `json:"amount"`
+	Date   time.Time 
+}
+
+func NewBlock(index int, data interface{},
+	timestamp time.Time) *Block {
+	return &Block{
+		Index:     index,
+		Timestamp: timestamp,
+		Data:      data,
+	}
+}
+
+func NewTransaction(from string, to string, amount float64) *Transaction {
+	return &Transaction{
+		From:   from,
+		To:     to,
+		Amount: amount,
+		Date:   time.Now(),
+	}
+}
+
+func (b *Block) createHash() string {
+	d := fmt.Sprintf("%v%v%v%v", b.Index, b.LastHash, b.Timestamp, b.Data)
+	h := sha256.New()
+	h.Write([]byte(d))
+	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+func NewBlockChain() Chain {
+	date, error := time.Parse(time.RFC3339, "2018-08-20T22:08:41+00:00")
+
+	if error != nil {
+		panic(error)
+	}
+
+	genesisBlock := NewBlock(0, "Genesis Block", date)
+	genesisBlock.LastHash = "0"
+	genesisBlock.Hash = genesisBlock.createHash()
+
+	var blocks Blocks
+	blocks = append(blocks, genesisBlock)
+
+	return &BlockChain{
+		Blocks: blocks,
+	}
+}
+
+func (b *BlockChain) AddBlock(block *Block) {
+	block.LastHash = b.GetLastBlock().Hash
+	block.Hash = block.createHash()
+	b.Blocks = append(b.Blocks, block)
+}
+
+func (b *BlockChain) GetLastBlock() *Block {
+	return b.Blocks[len(b.Blocks)-1]
+}
+
+func (b *BlockChain) GetBlocks() Blocks {
+	return b.Blocks
+}
+
+func (b *BlockChain) IsChainValid() bool {
+	for i := 1; i < len(b.Blocks); i++ {
+		currentBlock := b.Blocks[i]
+		prevBlock := b.Blocks[i-1]
+
+		if currentBlock.Hash != currentBlock.createHash() {
+			return false
+		}
+
+		if currentBlock.LastHash != prevBlock.Hash {
+			return false
+		}
+	}
+
+	return true
+}
+
+func main() {
+	fmt.Println("Starting blockchain...")
+
+	blockchain := NewBlockChain()
+	r := gin.Default()
+
+	r.POST("/pay", func(c *gin.Context) {
+		var err error
+		fmt.Println("Pay !")
+		var incomingTransaction Transaction
+		if err = c.BindJSON(&incomingTransaction); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":  "json decoding : " + err.Error(),
+				"status": http.StatusBadRequest,
+			})
+			return
+		}
+		fmt.Println(incomingTransaction)
+		transfer := incomingTransaction
+		fmt.Println(transfer)
+		lengthOfChain := len(blockchain.GetBlocks())
+		indexBlock := lengthOfChain + 1
+		xferTransaction := NewTransaction(transfer.From, transfer.To, transfer.Amount);
+		transferBlock := NewBlock(indexBlock, xferTransaction, time.Now())
+		blockchain.AddBlock(transferBlock)
+		c.JSON(http.StatusOK, gin.H{"transferValidity": blockchain.IsChainValid()})
+	})
+
+	r.GET("/blocks", func(c *gin.Context) {
+		currentBlocks := blockchain.GetBlocks()
+		c.JSON(http.StatusOK, gin.H{"blocks": currentBlocks})
+	})
+
+	r.Run("localhost:3005")
+
 }
 
 ```
