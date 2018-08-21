@@ -20,6 +20,13 @@ go get github.com/gin-gonic/gin
 go get github.com/gorilla/websocket
 ```
 
+### Get ripeMD160 
+* Install package ripemd160 implements the RIPEMD-160 hash algorithm.
+
+```bash
+go get golang.org/x/crypto/ripemd160
+```
+
 ### Utilities required
 install gomon (https://github.com/johannesboyne/gomon)
 
