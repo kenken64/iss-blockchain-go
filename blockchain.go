@@ -41,6 +41,7 @@ type Chain interface {
 	GetLastBlock() *Block
 	GetBlocks() Blocks
 	IsChainValid() bool
+	ClearBlocks()
 }
 
 type BlockChain struct {
@@ -61,6 +62,7 @@ const addressChecksumLen = 4
 type Wallet struct {
 	PrivateKey ecdsa.PrivateKey
 	PublicKey  []byte
+	Balance float64
 }
 
 func NewBlock(index int, data interface{},
@@ -120,6 +122,12 @@ func (b *BlockChain) GetBlocks() Blocks {
 	return b.Blocks
 }
 
+func (b *BlockChain) ClearBlocks() {
+	emptyBlocks := make([]*Block, 0)
+	fmt.Println("empty blocks [%s]", len(emptyBlocks))
+	b.Blocks = emptyBlocks
+}
+
 func (b *BlockChain) IsChainValid() bool {
 	for i := 1; i < len(b.Blocks); i++ {
 		currentBlock := b.Blocks[i]
@@ -140,7 +148,7 @@ func (b *BlockChain) IsChainValid() bool {
 // NewWallet creates and returns a Wallet
 func NewWallet() *Wallet {
 	private, public := newKeyPair()
-	wallet := Wallet{private, public}
+	wallet := Wallet{private, public, 10000}
 
 	return &wallet
 }
@@ -230,6 +238,8 @@ func main() {
 	fmt.Println("[ Starting Blockchain API Server ]")
 	// Instantiate a new blockchain
 	blockchain := NewBlockChain()
+	wallets := make(map[string]*Wallet)
+
 	r := gin.Default()
 
 	help := flag.Bool("help", false, "Display Help")
@@ -268,6 +278,7 @@ func main() {
 
 				conn.WriteJSON(b)
 				//i := Block{}
+				mutex.Lock()
 				var jsonStr = ""
 				err2 := conn.ReadJSON(&jsonStr)
 
@@ -276,6 +287,23 @@ func main() {
 					return
 				}
 				fmt.Println(jsonStr)
+				var fromJson map[string]interface{}
+				if err := json.Unmarshal([]byte(jsonStr), &fromJson); err != nil {
+					panic(err)
+				}
+				fmt.Println(fromJson)
+				blockchain.ClearBlocks()
+				/*
+				for k := range fromJson {
+					fmt.Println("-----s ----")
+					fmt.Println("key[%s]\n", k)
+					fmt.Println("value[%s]\n", fromJson[k])
+					fmt.Println("-----e ----")
+				}*/
+
+				//transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
+				//blockchain.AddBlock(transferBlock)
+				mutex.Unlock()
 			}
 		}()
 	}
@@ -283,6 +311,13 @@ func main() {
 	r.GET("/ws", func(c *gin.Context) {
 		wshandler(c.Writer, c.Request, blockchain)
 	})
+
+	r.GET("/new-wallet", func(c *gin.Context) {
+        wallet := NewWallet()
+		a := wallet.GetAddress()
+		wallets[string(a)] = wallet
+        c.JSON(http.StatusOK, gin.H{"wallets": wallets})
+    })
 
 	r.GET("/blocks", func(c *gin.Context) {
 		currentBlocks := blockchain.GetBlocks()
@@ -305,18 +340,36 @@ func main() {
 		var err error
 		var incomingTransaction Transaction
 		if err = c.BindJSON(&incomingTransaction); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
+			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":  "json decoding : " + err.Error(),
-				"status": http.StatusBadRequest,
+				"status": http.StatusInternalServerError,
 			})
 			return
 		}
-		lengthOfChain := len(blockchain.GetBlocks())
-		indexBlock := lengthOfChain + 1
-		xferTransaction := NewTransaction(incomingTransaction.From, incomingTransaction.To, incomingTransaction.Amount)
-		transferBlock := NewBlock(indexBlock, xferTransaction, time.Now())
-		blockchain.AddBlock(transferBlock)
-		c.JSON(http.StatusOK, gin.H{"transferValidity": blockchain.IsChainValid()})
+	
+		fromA := incomingTransaction.From
+		toA := incomingTransaction.To
+		if fromA != toA {
+			fromW, present := wallets[fromA]
+			if present {
+				toW, present := wallets[toA]
+				if present {
+					if fromW.Balance >= incomingTransaction.Amount {
+						fromW.Balance -= incomingTransaction.Amount
+						toW.Balance += incomingTransaction.Amount
+	
+						lengthOfChain := len(blockchain.GetBlocks())
+						xferTransaction := NewTransaction(fromA, toA, incomingTransaction.Amount)
+						transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
+						blockchain.AddBlock(transferBlock)
+						c.JSON(http.StatusOK, gin.H{"transferValidity": blockchain.IsChainValid()})
+						return
+					}
+				}
+			}
+		}
+	
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid"})
 	})
 
 	r.GET("/is-chain-valid", func(c *gin.Context) {
