@@ -355,8 +355,8 @@ func main() {
 				toW, present := wallets[toA]
 				if present {
 					if fromW.Balance >= incomingTransaction.Amount {
-						fromW.Balance -= incomingTransaction.Amount
-						toW.Balance += incomingTransaction.Amount
+						fromW.Balance = fromW.Balance - incomingTransaction.Amount
+						toW.Balance = toW.Balance + incomingTransaction.Amount
 	
 						lengthOfChain := len(blockchain.GetBlocks())
 						xferTransaction := NewTransaction(fromA, toA, incomingTransaction.Amount)
