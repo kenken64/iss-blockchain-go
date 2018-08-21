@@ -42,7 +42,6 @@
 </ul>
 <h2>Missing feature</h2>
 <ul>
-<li>Wallet Management - Generate Public and Private Key Infra</li>
 <li>Wallet synchronization</li>
 <li>Sign transaction</li>
 <li>Verify transaction</li>
@@ -321,9 +320,11 @@ p = &amp;i
 <li>Define a function that returns all the blocks</li>
 <li>Define a function that returns the last block from the blockchain</li>
 <li>Define a function that all the block in the chain is valid</li>
-<li>Define 3 rest API endpoint using GIN<ul>
+<li>Define 6 rest API endpoint using GIN<ul>
 <li>/blocks <strong>GET</strong></li>
 <li>/pay <strong>POST</strong> with payload</li>
+<li>/new-wallet <strong>GET</strong> with query amount</li>
+<li>/wallets <strong>GET</strong></li>
 <li>/is-chain-valid <strong>GET</strong></li>
 <li>/ws <strong>GET</strong> - data synchronization</li>
 </ul>

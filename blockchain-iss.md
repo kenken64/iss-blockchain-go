@@ -28,7 +28,6 @@ This workshop shows you how to create your own simple blockchain. In this tutori
 * Operating system: Linux/Windows/MacOS
 
 ### Missing feature 
-* Wallet Management - Generate Public and Private Key Infra
 * Wallet synchronization
 * Sign transaction
 * Verify transaction
@@ -403,10 +402,12 @@ A Transaction struct with the following members
 
 * Define a function that all the block in the chain is valid
 
-* Define 3 rest API endpoint using GIN
+* Define 6 rest API endpoint using GIN
     * /blocks <b>GET</b>
     * /pay <b>POST</b> with payload
-    * /is-chain-valid <b>GET</b>
+	* /new-wallet <b>GET</b> with query amount
+	* /wallets <b>GET</b>
+	* /is-chain-valid <b>GET</b>
     * /ws <b>GET</b> - data synchronization
 
 * Define new end point new-wallet, instantiate the wallet struct
