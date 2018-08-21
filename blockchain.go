@@ -286,7 +286,19 @@ func main() {
 
 	r.GET("/blocks", func(c *gin.Context) {
 		currentBlocks := blockchain.GetBlocks()
-		c.JSON(http.StatusOK, gin.H{"blocks": currentBlocks})
+		var interfaceSlice []interface{} = make([]interface{}, len(currentBlocks))
+		for i := range currentBlocks {
+			blockJson := &Block{
+				Index:     currentBlocks[i].Index,
+				Timestamp: currentBlocks[i].Timestamp,
+				LastHash:  currentBlocks[i].LastHash,
+				Hash:      currentBlocks[i].Hash,
+				Data:      currentBlocks[i].Data,
+			}
+			interfaceSlice[i] = blockJson
+		}
+
+		c.JSON(http.StatusOK, gin.H{"blocks": interfaceSlice})
 	})
 
 	r.POST("/pay", func(c *gin.Context) {
