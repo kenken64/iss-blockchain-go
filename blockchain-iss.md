@@ -216,7 +216,12 @@ func main() {
 }
 ```
 
-* short variable declaration := 
+* Only = is the assignment operator.
+* short variable declaration := , It is shorthand for a regular variable declaration with initializer expressions but no types:
+* structs are passed into functions by value. That is, a copy of a structure is made when passing it into a function.
+* if I want to pass a structure by reference, then I would instead use a pointer argument in the function definition, and use the addressof operator when calling the function.
+* The reason why I would want to pass in a structure by reference is because either the structure I'm passing in is large, and it would be taxing on memory to pass it by value (unlikely) or if I want to make changes to the copy that I'm passing in (more likely).
+* As a corollary to 3.), I should pass by value unless I have one of the reasons above to pass by reference.
 * Appending to a slice
 ⋅⋅⋅ func append(s []T, vs ...T) []T
 * Go has pointers. A pointer holds the memory address of a value.
