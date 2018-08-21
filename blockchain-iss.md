@@ -925,8 +925,8 @@ Duration: 60:0
 Please follow the setup on the following [website](https://flutter.io/get-started/install/)
 
 * Git clone the flutter wallet app from the following [Github](https://github.com/kenken64/iss-blockchain-wallet) repository.
-* Implement the transfer functionality using http <b>POST</b> calling the blockchain master node's rest API.
-* List all the blocks on the history tab of the wallet app.
+* Implement the transfer functionality using http <b>POST</b> calling the blockchain master node's rest API /pay.
+* List all the blocks calling the http <b>GET</b> /blocks on the history tab of the wallet app.
 * Run wallet app
 
 ```bash
