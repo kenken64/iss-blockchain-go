@@ -133,12 +133,12 @@
 <h2>Nonce</h2>
 <p>The nonce value is iterated by one on every hash generation attempt. If the hash value satisfies the difficulty level, we save the nonce value in the block so other nodes can quickly validate the hash.</p>
 <h2>51% Attack</h2>
-<p><img src="img/4136636c159a1357.png"><br><br>A 51% attack could result if a dishonest party could control more than 50% of the computer nodes on the network resulting in the ability to compute hashes faster than any other nodes on the network. This could result in corruption of the blockchain and double spending. The more nodes there are on the network, the less likely this is to happen.</p>
-<p><img src="img/3141e8c4a1c66723.png"><br><img src="img/be282482053c90df.png"><br><img src="img/776c5c6cbb9fed93.png"><br><img src="img/4f2dd5aa471fa863.png"><br><img src="img/d5a81127d20b3093.png"><br><a href="https://www.youtube.com/watch?v=3TQ9Sfh-7kQ" target="_blank">Youtube Video</a></p>
+<p><img src="img\4136636c159a1357.png"><br><br>A 51% attack could result if a dishonest party could control more than 50% of the computer nodes on the network resulting in the ability to compute hashes faster than any other nodes on the network. This could result in corruption of the blockchain and double spending. The more nodes there are on the network, the less likely this is to happen.</p>
+<p><img src="img\3141e8c4a1c66723.png"><br><img src="img\be282482053c90df.png"><br><img src="img\776c5c6cbb9fed93.png"><br><img src="img\4f2dd5aa471fa863.png"><br><img src="img\d5a81127d20b3093.png"><br><a href="https://www.youtube.com/watch?v=3TQ9Sfh-7kQ" target="_blank">Youtube Video</a></p>
 <h2>Dynamic Difficulty Level</h2>
 <p>The blockchain uses a dynamic difficulty level by increasing the difficulty level if blocks are mined too quickly and decreasing the difficulty level if blocks are mined too slowly. The blockchain&#39;s default mine rate is 3000 milliseconds and the difficulty level is adjusted based on whether blocks are mined faster or slower than this value.</p>
 <p>Our blockchain supports the idea of a dynamic difficulty level that changes over time, depending on how quickly blocks are added to the blockchain. Each block stores the difficulty level and the mine rate, which represents the rate at which blocks should be mined. Difficulty level will be adjusted by checking the difference between the current and previous blocks and increasing the difficulty level if the difference is below the target mine rate (to increase mining time) and decreasing the difficulty level if the difference is above the target mine rate (to decrease mining time).</p>
-<p><img src="img/be7fe5bbddf898.png"><br></p>
+<p><img src="img\be7fe5bbddf898.png"><br></p>
 <p><a href="https://etherscan.io/chart/difficulty" target="_blank">Ethereum Block Difficulty Chart</a></p>
 
 
@@ -161,6 +161,29 @@
 <li>Go routine (Concurrency)</li>
 </ul>
 <h2>Golang Notes</h2>
+<ul>
+<li>Interfaces in Go are very different from, say, Java interfaces. You don&#39;t explicitly say a data type implements an interface; rather, your data types must implement all of the methods that the interface defines, and the compiler checks to see if assignments to variables of the interface type are valid.</li>
+</ul>
+<pre><code>type Animal interface {
+ Name() string
+ Bark()
+}
+</code></pre>
+<pre><code>type Dog struct {}
+
+func (d *Dog) Name() string {
+ return &#34;Dog&#34;
+}
+func (d *Dog) Bark() {
+ fmt.Println(&#34;Woof!&#34;)
+}
+</code></pre>
+<pre><code>func main() {
+ var animal Animal
+ animal = &amp;Dog{} // returns a pointer to a new Dog
+ fmt.Println(animal.Name()) // Dog
+}
+</code></pre>
 <ul>
 <li>short variable declaration :=</li>
 <li>Appending to a slice<br>⋅⋅⋅ func append(s []T, vs ...T) []T</li>
@@ -219,13 +242,13 @@ p = &amp;i
       <google-codelab-step label="Blockchain replication" duration="20">
         <p>What is a forks?</p>
 <p>Every node on the network needs to have the same copy of the blockchain. So what happens when a new block gets mined on one node? Now the system has to replicate the new block to all the other nodes on the network so every node is in sync and has the same copy of the blockchain.</p>
-<p><img src="img/b2388a31bbd6f95.png"></p>
+<p><img src="img\b2388a31bbd6f95.png"></p>
 <p>Since the blockchain needs to be replicated among all nodes in the network, the question arises – what happens if two nodes mine a block at the same time? This is when there&#39;s a fork in the blockchain and the system needs to reconcile the fork and merge all the new blocks.</p>
-<p><img src="img/21f24bfed0b8a1b6.png"></p>
+<p><img src="img\21f24bfed0b8a1b6.png"></p>
 <p>When a fork occurs, some nodes will get replicated from node A and some will get replicated from node B which will create the following scenario:</p>
-<p><img src="img/f2f6c82fe9421966.png"></p>
+<p><img src="img\f2f6c82fe9421966.png"></p>
 <p>We will use the rule that the longest chain will be accepted as the main chain. If there is a conflict between multiple nodes mining blocks at the same time, eventually, one chain will be longer and that will be accepted as the master blockchain. The other blocks that were mined on the shorter chain will be incorporated into the main blockchain.</p>
-<p><img src="img/2c6071477a35a6cc.png"></p>
+<p><img src="img\2c6071477a35a6cc.png"></p>
 
 
       </google-codelab-step>
@@ -256,25 +279,25 @@ p = &amp;i
       <google-codelab-step label="Workshop" duration="45">
         <p>In this workshop, you will write your blockchain in Google&#39;s Go Programming language. Define your own blockchain data structure, form your blockchain functionalities, create your transaction management, provide rest API and lastly blockchain data synchronisation. Let us all recap how a transaction works between two or more parties in a traditional banking transfer system vs blockchain.</p>
 <h2>Today&#39;s banking system (Remittance Cycle)</h2>
-<p><img src="img/4daff8cafcaa62dd.png"></p>
+<p><img src="img\4daff8cafcaa62dd.png"></p>
 <p><strong>Q: What if the banking software crash? </strong></p>
 <p>A: Of course definitely there is a downtime and recovery process takes place in the bank. A customer won&#39;t able to perform fund transfer during that time. All customer have to wait until the system is fully up and operational. That leads to a single point of failure in my opinion.</p>
 <p><strong>Q: Looks like there is a lot of parties involved in between this wire transfer cycle?</strong></p>
 <p>A: Yes the seller&#39;s bank and the buyer&#39;s bank. Sometimes we might have a clearinghouse as well. With all these dependencies in place that is the reason why bank need 1-2 working days to clear the funds abroad.</p>
 <h2>Blockchain scenario (CryptoCurrency)</h2>
 <p>Shows how transaction happens on the blockchain network:-</p>
-<p><img src="img/2d9d1926d91629e6.png"></p>
+<p><img src="img\2d9d1926d91629e6.png"></p>
 <p>All transactions record are publicly available. Every single transfer is recorded on the distributed ledger.</p>
 <p><strong>Q: Which technology has the most transparency if a side by side comparison is done?</strong></p>
 <p>A: Definitely not the banking system, if there are a fraud and insider job in the bank it has to wait till an audit exercise to discover as an incident. Therefore blockchain is an evolution. An effective e-commerce platform is overdue without an evolution and well-integrated payment technology with transparency.</p>
 <h2>Developing your own Blockchain</h2>
 <p>Define a data structure to hold all your blockchain data</p>
 <p>A Block struct with the following members</p>
-<p><img src="img/45e785e87a6f31ca.png"></p>
+<p><img src="img\45e785e87a6f31ca.png"></p>
 <p>A Blockchain struct with the following members</p>
-<p><img src="img/386285bb789948ad.png"></p>
+<p><img src="img\386285bb789948ad.png"></p>
 <p>A Transaction struct with the following members</p>
-<p><img src="img/d3d232ad1a6b1ab3.png"></p>
+<p><img src="img\d3d232ad1a6b1ab3.png"></p>
 <h2>Requirement</h2>
 <ul>
 <li>Define a type where is a list of the Block structure.</li>
@@ -311,61 +334,61 @@ p = &amp;i
 </ul>
 <pre><code>// Wallet stores private and public keys
 type Wallet struct {
-	PrivateKey ecdsa.PrivateKey
-	PublicKey  []byte
+    PrivateKey ecdsa.PrivateKey
+    PublicKey  []byte
 }
 
 // NewWallet creates and returns a Wallet
 func NewWallet() *Wallet {
-	private, public := newKeyPair()
-	wallet := Wallet{private, public}
+    private, public := newKeyPair()
+    wallet := Wallet{private, public}
 
-	return &amp;wallet
+    return &amp;wallet
 }
 
 // GetAddress returns wallet address
 func (w Wallet) GetAddress() []byte {
-	pubKeyHash := HashPubKey(w.PublicKey)
+    pubKeyHash := HashPubKey(w.PublicKey)
 
-	versionedPayload := append([]byte{version}, pubKeyHash...)
-	checksum := checksum(versionedPayload)
+    versionedPayload := append([]byte{version}, pubKeyHash...)
+    checksum := checksum(versionedPayload)
 
-	fullPayload := append(versionedPayload, checksum...)
-	address := Base58Encode(fullPayload)
+    fullPayload := append(versionedPayload, checksum...)
+    address := Base58Encode(fullPayload)
 
-	return address
+    return address
 }
 
 // HashPubKey hashes public key
 func HashPubKey(pubKey []byte) []byte {
-	publicSHA256 := sha256.Sum256(pubKey)
+    publicSHA256 := sha256.Sum256(pubKey)
 
-	RIPEMD160Hasher := ripemd160.New()
-	_, err := RIPEMD160Hasher.Write(publicSHA256[:])
-	if err != nil {
-		log.Panic(err)
-	}
-	publicRIPEMD160 := RIPEMD160Hasher.Sum(nil)
+    RIPEMD160Hasher := ripemd160.New()
+    _, err := RIPEMD160Hasher.Write(publicSHA256[:])
+    if err != nil {
+        log.Panic(err)
+    }
+    publicRIPEMD160 := RIPEMD160Hasher.Sum(nil)
 
-	return publicRIPEMD160
+    return publicRIPEMD160
 }
 
 func checksum(payload []byte) []byte {
-	firstSHA := sha256.Sum256(payload)
-	secondSHA := sha256.Sum256(firstSHA[:])
+    firstSHA := sha256.Sum256(payload)
+    secondSHA := sha256.Sum256(firstSHA[:])
 
-	return secondSHA[:addressChecksumLen]
+    return secondSHA[:addressChecksumLen]
 }
 
 func newKeyPair() (ecdsa.PrivateKey, []byte) {
-	curve := elliptic.P256()
-	private, err := ecdsa.GenerateKey(curve, rand.Reader)
-	if err != nil {
-		log.Panic(err)
-	}
-	pubKey := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
+    curve := elliptic.P256()
+    private, err := ecdsa.GenerateKey(curve, rand.Reader)
+    if err != nil {
+        log.Panic(err)
+    }
+    pubKey := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
 
-	return *private, pubKey
+    return *private, pubKey
 }
 </code></pre>
 <ul>
@@ -384,31 +407,37 @@ func newKeyPair() (ecdsa.PrivateKey, []byte) {
       <google-codelab-step label="Workshop Solution" duration="300">
         <p><a href="https://github.com/kenken64/iss-blockchain-go" target="_blank">Github</a></p>
 <h2>Full Source code</h2>
+<h2>blockchain.go</h2>
 <pre><code>package main
 
 import (
-	&#34;crypto/sha256&#34;
-	&#34;encoding/json&#34;
-	&#34;flag&#34;
-	&#34;fmt&#34;
-	&#34;net/http&#34;
-	&#34;os&#34;
-	&#34;sync&#34;
-	&#34;time&#34;
+    &#34;crypto/ecdsa&#34;
+    &#34;crypto/elliptic&#34;
+    &#34;crypto/rand&#34;
+    &#34;crypto/sha256&#34;
+    &#34;encoding/json&#34;
+    &#34;flag&#34;
+    &#34;fmt&#34;
+    &#34;log&#34;
+    &#34;net/http&#34;
+    &#34;os&#34;
+    &#34;sync&#34;
+    &#34;time&#34;
 
-	&#34;github.com/gin-gonic/gin&#34;
-	&#34;github.com/gorilla/websocket&#34;
+    &#34;github.com/gin-gonic/gin&#34;
+    &#34;github.com/gorilla/websocket&#34;
+    &#34;golang.org/x/crypto/ripemd160&#34;
 )
 
 // data structure of the block
 type Block struct {
-	Index      int         `json:&#34;index&#34;`
-	Timestamp  time.Time   `json:&#34;date&#34;`
-	LastHash   string      `json:&#34;prevHash&#34;`
-	Hash       string      `json:&#34;hash&#34;`
-	Data       interface{} `json:&#34;transaction&#34;`
-	nonce      uint32
-	difficulty int
+    Index      int         `json:&#34;index&#34;`
+    Timestamp  time.Time   `json:&#34;date&#34;`
+    LastHash   string      `json:&#34;prevHash&#34;`
+    Hash       string      `json:&#34;hash&#34;`
+    Data       interface{} `json:&#34;transaction&#34;`
+    nonce      uint32
+    difficulty int
 }
 
 // list of blockchains
@@ -418,392 +447,439 @@ var mutex = &amp;sync.Mutex{}
 
 // interface consist all the function of the blockchain struct
 type Chain interface {
-	AddBlock(block *Block)
-	GetLastBlock() *Block
-	GetBlocks() Blocks
-	IsChainValid() bool
+    AddBlock(block *Block)
+    GetLastBlock() *Block
+    GetBlocks() Blocks
+    IsChainValid() bool
+    ClearBlocks()
 }
 
 type BlockChain struct {
-	Blocks Blocks `json:&#34;Blocks&#34;`
+    Blocks Blocks `json:&#34;Blocks&#34;`
 }
 
 type Transaction struct {
-	From   string  `json:&#34;from&#34;`
-	To     string  `json:&#34;to&#34;`
-	Amount float64 `json:&#34;amount&#34;`
-	Date   time.Time
+    From   string  `json:&#34;from&#34;`
+    To     string  `json:&#34;to&#34;`
+    Amount float64 `json:&#34;amount&#34;`
+    Date   time.Time
+}
+
+const version = byte(0x00)
+const addressChecksumLen = 4
+
+// Wallet stores private and public keys
+type Wallet struct {
+    PrivateKey ecdsa.PrivateKey
+    PublicKey  []byte
+    Balance    float64
 }
 
 func NewBlock(index int, data interface{},
-	timestamp time.Time) *Block {
-	return &amp;Block{
-		Index:     index,
-		Timestamp: timestamp,
-		Data:      data,
-	}
+    timestamp time.Time) *Block {
+    return &amp;Block{
+        Index:     index,
+        Timestamp: timestamp,
+        Data:      data,
+    }
 }
 
 func NewTransaction(from string, to string, amount float64) *Transaction {
-	return &amp;Transaction{
-		From:   from,
-		To:     to,
-		Amount: amount,
-		Date:   time.Now(),
-	}
+    return &amp;Transaction{
+        From:   from,
+        To:     to,
+        Amount: amount,
+        Date:   time.Now(),
+    }
 }
 
 func (b *Block) createHash() string {
-	d := fmt.Sprintf(&#34;%v%v%v%v&#34;, b.Index, b.LastHash, b.Timestamp, b.Data)
-	h := sha256.New()
-	h.Write([]byte(d))
-	return fmt.Sprintf(&#34;%x&#34;, h.Sum(nil))
+    d := fmt.Sprintf(&#34;%v%v%v%v&#34;, b.Index, b.LastHash, b.Timestamp, b.Data)
+    h := sha256.New()
+    h.Write([]byte(d))
+    return fmt.Sprintf(&#34;%x&#34;, h.Sum(nil))
 }
 
 func NewBlockChain() Chain {
-	date, error := time.Parse(time.RFC3339, &#34;2018-08-20T22:08:41+00:00&#34;)
-	if error != nil {
-		panic(error)
-	}
-	// create genesis block
-	genesisBlock := NewBlock(0, &#34;Genesis Block&#34;, date)
-	genesisBlock.LastHash = &#34;0&#34;
-	genesisBlock.Hash = genesisBlock.createHash()
+    date, error := time.Parse(time.RFC3339, &#34;2018-08-20T22:08:41+00:00&#34;)
+    if error != nil {
+        panic(error)
+    }
+    // create genesis block
+    genesisBlock := NewBlock(0, &#34;Genesis Block&#34;, date)
+    genesisBlock.LastHash = &#34;0&#34;
+    genesisBlock.Hash = genesisBlock.createHash()
 
-	var blocks Blocks
-	blocks = append(blocks, genesisBlock)
+    var blocks Blocks
+    blocks = append(blocks, genesisBlock)
 
-	return &amp;BlockChain{
-		Blocks: blocks,
-	}
+    return &amp;BlockChain{
+        Blocks: blocks,
+    }
 }
 
 func (b *BlockChain) AddBlock(block *Block) {
-	block.LastHash = b.GetLastBlock().Hash
-	block.Hash = block.createHash()
-	b.Blocks = append(b.Blocks, block)
+    block.LastHash = b.GetLastBlock().Hash
+    block.Hash = block.createHash()
+    b.Blocks = append(b.Blocks, block)
 }
 
 func (b *BlockChain) GetLastBlock() *Block {
-	return b.Blocks[len(b.Blocks)-1]
+    return b.Blocks[len(b.Blocks)-1]
 }
 
 func (b *BlockChain) GetBlocks() Blocks {
-	return b.Blocks
+    return b.Blocks
+}
+
+func (b *BlockChain) ClearBlocks() {
+    emptyBlocks := make([]*Block, 0)
+    fmt.Println(&#34;empty blocks [%s]&#34;, len(emptyBlocks))
+    b.Blocks = emptyBlocks
 }
 
 func (b *BlockChain) IsChainValid() bool {
-	for i := 1; i &lt; len(b.Blocks); i++ {
-		currentBlock := b.Blocks[i]
-		prevBlock := b.Blocks[i-1]
+    for i := 1; i &lt; len(b.Blocks); i++ {
+        currentBlock := b.Blocks[i]
+        prevBlock := b.Blocks[i-1]
 
-		if currentBlock.Hash != currentBlock.createHash() {
-			return false
-		}
+        if currentBlock.Hash != currentBlock.createHash() {
+            return false
+        }
 
-		if currentBlock.LastHash != prevBlock.Hash {
-			return false
-		}
-	}
+        if currentBlock.LastHash != prevBlock.Hash {
+            return false
+        }
+    }
 
-	return true
+    return true
+}
+
+// NewWallet creates and returns a Wallet
+func NewWallet() *Wallet {
+    private, public := newKeyPair()
+    wallet := Wallet{private, public, 10000}
+
+    return &amp;wallet
+}
+
+// GetAddress returns wallet address
+func (w Wallet) GetAddress() []byte {
+    pubKeyHash := HashPubKey(w.PublicKey)
+
+    versionedPayload := append([]byte{version}, pubKeyHash...)
+    checksum := checksum(versionedPayload)
+
+    fullPayload := append(versionedPayload, checksum...)
+    address := Base58Encode(fullPayload)
+
+    return address
+}
+
+// HashPubKey hashes public key
+func HashPubKey(pubKey []byte) []byte {
+    publicSHA256 := sha256.Sum256(pubKey)
+
+    RIPEMD160Hasher := ripemd160.New()
+    _, err := RIPEMD160Hasher.Write(publicSHA256[:])
+    if err != nil {
+        log.Panic(err)
+    }
+    publicRIPEMD160 := RIPEMD160Hasher.Sum(nil)
+
+    return publicRIPEMD160
+}
+
+func checksum(payload []byte) []byte {
+    firstSHA := sha256.Sum256(payload)
+    secondSHA := sha256.Sum256(firstSHA[:])
+
+    return secondSHA[:addressChecksumLen]
+}
+
+func newKeyPair() (ecdsa.PrivateKey, []byte) {
+    curve := elliptic.P256()
+    private, err := ecdsa.GenerateKey(curve, rand.Reader)
+    if err != nil {
+        log.Panic(err)
+    }
+    pubKey := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
+
+    return *private, pubKey
 }
 
 var wsupgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-	CheckOrigin:     func(r *http.Request) bool { return true },
+    ReadBufferSize:  1024,
+    WriteBufferSize: 1024,
+    CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
 func wshandler(w http.ResponseWriter, r *http.Request, b Chain) {
-	conn, err := wsupgrader.Upgrade(w, r, nil)
-	if err != nil {
-		fmt.Println(&#34;Failed to set websocket upgrade: %+v&#34;, err)
-		return
-	}
-	//defer conn.Close()
+    conn, err := wsupgrader.Upgrade(w, r, nil)
+    if err != nil {
+        fmt.Println(&#34;Failed to set websocket upgrade: %+v&#34;, err)
+        return
+    }
+    //defer conn.Close()
 
-	go func() {
-		for {
-			_, message, error := conn.ReadMessage()
-			if error != nil {
-				fmt.Println(&#34;read: &#34;, error)
-				return
-			}
-			time.Sleep(2 * time.Second)
-			fmt.Println(&#34;message:&#34;, string(message))
-			for _, bb := range b.GetBlocks() {
-				b, err := json.Marshal(bb)
-				if err != nil {
-					fmt.Println(err)
-					return
-				}
-				conn.WriteJSON(string(b))
-			}
+    go func() {
+        for {
+            _, message, error := conn.ReadMessage()
+            if error != nil {
+                fmt.Println(&#34;read: &#34;, error)
+                return
+            }
+            time.Sleep(2 * time.Second)
+            fmt.Println(&#34;message:&#34;, string(message))
+            for _, bb := range b.GetBlocks() {
+                b, err := json.Marshal(bb)
+                if err != nil {
+                    fmt.Println(err)
+                    return
+                }
+                conn.WriteJSON(string(b))
+            }
 
-		}
-	}()
+        }
+    }()
 }
 
 func main() {
-	fmt.Println(&#34;[ Starting Blockchain API Server ]&#34;)
-	// Instantiate a new blockchain
-	blockchain := NewBlockChain()
-	r := gin.Default()
+    fmt.Println(&#34;[ Starting Blockchain API Server ]&#34;)
+    // Instantiate a new blockchain
+    blockchain := NewBlockChain()
+    wallets := make(map[string]*Wallet)
 
-	help := flag.Bool(&#34;help&#34;, false, &#34;Display Help&#34;)
-	host := flag.String(&#34;h&#34;, &#34;&#34;, &#34;Host Address and Port&#34;)
-	dest := flag.String(&#34;d&#34;, &#34;&#34;, &#34;Dest MultiAddr String&#34;)
-	flag.Parse()
-	if *help {
-		fmt.Printf(&#34;This program demonstrates a simple blockchain\n\n&#34;)
-		fmt.Printf(&#34;Usage: Run &#39;./blockchain -h &lt;hostname:port&gt; -d &lt;peershost:port&gt;\n&#34;)
+    r := gin.Default()
 
-		os.Exit(0)
-	}
+    help := flag.Bool(&#34;help&#34;, false, &#34;Display Help&#34;)
+    host := flag.String(&#34;h&#34;, &#34;&#34;, &#34;Host Address and Port&#34;)
+    dest := flag.String(&#34;d&#34;, &#34;&#34;, &#34;Dest MultiAddr String&#34;)
+    flag.Parse()
+    if *help {
+        fmt.Printf(&#34;This program demonstrates a simple blockchain\n\n&#34;)
+        fmt.Printf(&#34;Usage: Run &#39;./blockchain -h &lt;hostname:port&gt; -d &lt;peershost:port&gt;\n&#34;)
 
-	blocksSize := len(blockchain.GetBlocks())
-	fmt.Println(&#34;Total block size : &#34;, blocksSize)
-	fmt.Println(&#34;readsssss:&#34;, *dest)
-	if *dest != &#34;&#34; {
-		URL := &#34;ws://&#34; + *dest + &#34;/ws&#34;
+        os.Exit(0)
+    }
 
-		var dialer *websocket.Dialer
+    blocksSize := len(blockchain.GetBlocks())
+    fmt.Println(&#34;Total block size : &#34;, blocksSize)
+    fmt.Println(&#34;readsssss:&#34;, *dest)
+    if *dest != &#34;&#34; {
+        URL := &#34;ws://&#34; + *dest + &#34;/ws&#34;
 
-		conn, _, err := dialer.Dial(URL, nil)
-		//defer conn.Close()
-		go func() {
+        var dialer *websocket.Dialer
 
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			for {
-				b, err := json.Marshal(blockchain.GetBlocks())
-				if err != nil {
-					fmt.Println(err)
-					return
-				}
+        conn, _, err := dialer.Dial(URL, nil)
+        //defer conn.Close()
+        go func() {
 
-				conn.WriteJSON(b)
-				//i := Block{}
-				var jsonStr = &#34;&#34;
-				err2 := conn.ReadJSON(&amp;jsonStr)
+            if err != nil {
+                fmt.Println(err)
+                return
+            }
+            for {
+                b, err := json.Marshal(blockchain.GetBlocks())
+                if err != nil {
+                    fmt.Println(err)
+                    return
+                }
 
-				if err2 != nil {
-					fmt.Println(&#34;read:&#34;, err2)
-					return
-				}
-				fmt.Println(jsonStr)
-			}
-		}()
-	}
+                conn.WriteJSON(b)
+                //i := Block{}
+                mutex.Lock()
+                var jsonStr = &#34;&#34;
+                err2 := conn.ReadJSON(&amp;jsonStr)
 
-	r.GET(&#34;/ws&#34;, func(c *gin.Context) {
-		wshandler(c.Writer, c.Request, blockchain)
-	})
+                if err2 != nil {
+                    fmt.Println(&#34;read:&#34;, err2)
+                    return
+                }
+                fmt.Println(jsonStr)
+                var fromJson map[string]interface{}
+                if err := json.Unmarshal([]byte(jsonStr), &amp;fromJson); err != nil {
+                    panic(err)
+                }
+                fmt.Println(fromJson)
+                blockchain.ClearBlocks()
+                /*
+                    for k := range fromJson {
+                        fmt.Println(&#34;-----s ----&#34;)
+                        fmt.Println(&#34;key[%s]\n&#34;, k)
+                        fmt.Println(&#34;value[%s]\n&#34;, fromJson[k])
+                        fmt.Println(&#34;-----e ----&#34;)
+                    }*/
 
-	r.GET(&#34;/blocks&#34;, func(c *gin.Context) {
-		currentBlocks := blockchain.GetBlocks()
-		var interfaceSlice []interface{} = make([]interface{}, len(currentBlocks))
-		for i := range currentBlocks {
-			blockJson := &amp;Block{
-				Index:     currentBlocks[i].Index,
-				Timestamp: currentBlocks[i].Timestamp,
-				LastHash:  currentBlocks[i].LastHash,
-				Hash:      currentBlocks[i].Hash,
-				Data:      currentBlocks[i].Data,
-			}
-			interfaceSlice[i] = blockJson
-		}
+                //transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
+                //blockchain.AddBlock(transferBlock)
+                mutex.Unlock()
+            }
+        }()
+    }
 
-		c.JSON(http.StatusOK, gin.H{&#34;blocks&#34;: interfaceSlice})
-	})
+    r.GET(&#34;/ws&#34;, func(c *gin.Context) {
+        wshandler(c.Writer, c.Request, blockchain)
+    })
 
-	r.POST(&#34;/pay&#34;, func(c *gin.Context) {
-		var incomingTransaction Transaction
-		c.BindJSON(&amp;incomingTransaction)
-		transfer := incomingTransaction
-		lengthOfChain := len(blockchain.GetBlocks())
-		indexblock := lengthOfChain + 1
-		transferBlock := NewBlock(indexblock, transfer, time.Now())
-		blockchain.AddBlock(transferBlock)
-		c.JSON(http.StatusOK, gin.H{&#34;transferedValidity&#34;: blockchain.IsChainValid()})
-	})
+    r.GET(&#34;/new-wallet&#34;, func(c *gin.Context) {
+        var incomingWallet Wallet
+        wallet := NewWallet()
+        if c.BindQuery(&amp;incomingWallet) == nil {
+            log.Println(&#34;====== Only Bind Query String ======&#34;)
+            log.Println(incomingWallet.Balance)
+            wallet.Balance = incomingWallet.Balance
+        }
+        a := wallet.GetAddress()
+        wallets[string(a)] = wallet
 
-	r.GET(&#34;/is-chain-valid&#34;, func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{&#34;chain-validity&#34;: blockchain.IsChainValid()})
-	})
+        var jsonWallet struct {
+            PublicKey string  `json:&#34;publicKey&#34;`
+            Amount    float64 `json:&#34;Amount&#34;`
+        }
 
-	fmt.Println(&#34;Hostname and Port &#34;, dest)
-	var finalPortAssignment = &#34;localhost:3005&#34;
-	if *host != &#34;&#34; {
-		finalPortAssignment = *host
-		fmt.Println(&#34;default Hostname and Port &#34;, finalPortAssignment)
-	}
+        jsonWallet.PublicKey = string(a)
+        jsonWallet.Amount = wallet.Balance
 
-	r.Run(finalPortAssignment)
+        c.JSON(http.StatusOK, gin.H{&#34;wallets&#34;: jsonWallet})
+    })
+
+    r.GET(&#34;/wallets&#34;, func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{&#34;wallets&#34;: wallets})
+    })
+
+    r.GET(&#34;/blocks&#34;, func(c *gin.Context) {
+        currentBlocks := blockchain.GetBlocks()
+        var interfaceSlice []interface{} = make([]interface{}, len(currentBlocks))
+        for i := range currentBlocks {
+            blockJson := &amp;Block{
+                Index:     currentBlocks[i].Index,
+                Timestamp: currentBlocks[i].Timestamp,
+                LastHash:  currentBlocks[i].LastHash,
+                Hash:      currentBlocks[i].Hash,
+                Data:      currentBlocks[i].Data,
+            }
+            interfaceSlice[i] = blockJson
+        }
+
+        c.JSON(http.StatusOK, gin.H{&#34;blocks&#34;: interfaceSlice})
+    })
+
+    r.POST(&#34;/pay&#34;, func(c *gin.Context) {
+        var err error
+        var incomingTransaction Transaction
+        if err = c.BindJSON(&amp;incomingTransaction); err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{
+                &#34;error&#34;:  &#34;json decoding : &#34; + err.Error(),
+                &#34;status&#34;: http.StatusInternalServerError,
+            })
+            return
+        }
+
+        fromA := incomingTransaction.From
+        toA := incomingTransaction.To
+        if fromA != toA {
+            fromW, present := wallets[fromA]
+            if present {
+                toW, present := wallets[toA]
+                if present {
+                    if fromW.Balance &gt;= incomingTransaction.Amount {
+                        fromW.Balance = fromW.Balance - incomingTransaction.Amount
+                        toW.Balance = toW.Balance + incomingTransaction.Amount
+
+                        lengthOfChain := len(blockchain.GetBlocks())
+                        xferTransaction := NewTransaction(fromA, toA, incomingTransaction.Amount)
+                        transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
+                        blockchain.AddBlock(transferBlock)
+                        c.JSON(http.StatusOK, gin.H{&#34;transferValidity&#34;: blockchain.IsChainValid()})
+                        return
+                    }
+                }
+            }
+        }
+
+        c.JSON(http.StatusInternalServerError, gin.H{&#34;error&#34;: &#34;invalid&#34;})
+    })
+
+    r.GET(&#34;/is-chain-valid&#34;, func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{&#34;chain-validity&#34;: blockchain.IsChainValid()})
+    })
+
+    fmt.Println(&#34;Hostname and Port &#34;, dest)
+    var finalPortAssignment = &#34;localhost:3005&#34;
+    if *host != &#34;&#34; {
+        finalPortAssignment = *host
+        fmt.Println(&#34;default Hostname and Port &#34;, finalPortAssignment)
+    }
+
+    r.Run(finalPortAssignment)
 }
 
+
 </code></pre>
-<h2>Current version</h2>
+<h2>base58.go</h2>
 <pre><code>package main
 
 import (
-	&#34;crypto/sha256&#34;
-	//&#34;encoding/json&#34;
-	&#34;fmt&#34;
-	&#34;net/http&#34;
-	&#34;time&#34;
-
-	&#34;github.com/gin-gonic/gin&#34;
-	//&#34;github.com/gorilla/websocket&#34;
+    &#34;bytes&#34;
+    &#34;math/big&#34;
 )
 
-// data structure of the block
-type Block struct {
-	Index      int         `json:&#34;index&#34;`
-	Timestamp  time.Time   `json:&#34;date&#34;`
-	LastHash   string      `json:&#34;prevHash&#34;`
-	Hash       string      `json:&#34;hash&#34;`
-	Data       interface{} `json:&#34;transaction&#34;`
-	nonce      uint32
-	difficulty int
+var b58Alphabet = []byte(&#34;123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz&#34;)
+
+// Base58Encode encodes a byte array to Base58
+func Base58Encode(input []byte) []byte {
+    var result []byte
+
+    x := big.NewInt(0).SetBytes(input)
+
+    base := big.NewInt(int64(len(b58Alphabet)))
+    zero := big.NewInt(0)
+    mod := &amp;big.Int{}
+
+    for x.Cmp(zero) != 0 {
+        x.DivMod(x, base, mod)
+        result = append(result, b58Alphabet[mod.Int64()])
+    }
+
+    // https://en.bitcoin.it/wiki/Base58Check_encoding#Version_bytes
+    if input[0] == 0x00 {
+        result = append(result, b58Alphabet[0])
+    }
+
+    ReverseBytes(result)
+
+    return result
 }
 
-// list  of blockchain
-type Blocks []*Block
+// Base58Decode decodes Base58-encoded data
+func Base58Decode(input []byte) []byte {
+    result := big.NewInt(0)
 
-type Chain interface {
-	AddBlock(block *Block)
-	GetLastBlock() *Block
-	GetBlocks() Blocks
-	IsChainValid() bool
+    for _, b := range input {
+        charIndex := bytes.IndexByte(b58Alphabet, b)
+        result.Mul(result, big.NewInt(58))
+        result.Add(result, big.NewInt(int64(charIndex)))
+    }
+
+    decoded := result.Bytes()
+
+    if input[0] == b58Alphabet[0] {
+        decoded = append([]byte{0x00}, decoded...)
+    }
+
+    return decoded
 }
+</code></pre>
+<h2>utils.go</h2>
+<pre><code>package main
 
-type BlockChain struct {
-	Blocks Blocks `json:&#34;Blocks&#34;`
+// ReverseBytes reverses a byte array
+func ReverseBytes(data []byte) {
+    for i, j := 0, len(data)-1; i &lt; j; i, j = i+1, j-1 {
+        data[i], data[j] = data[j], data[i]
+    }
 }
-
-type Transaction struct {
-	From   string  `json:&#34;from&#34;`
-	To     string  `json:&#34;to&#34;`
-	Amount float64 `json:&#34;amount&#34;`
-	Date   time.Time 
-}
-
-func NewBlock(index int, data interface{},
-	timestamp time.Time) *Block {
-	return &amp;Block{
-		Index:     index,
-		Timestamp: timestamp,
-		Data:      data,
-	}
-}
-
-func NewTransaction(from string, to string, amount float64) *Transaction {
-	return &amp;Transaction{
-		From:   from,
-		To:     to,
-		Amount: amount,
-		Date:   time.Now(),
-	}
-}
-
-func (b *Block) createHash() string {
-	d := fmt.Sprintf(&#34;%v%v%v%v&#34;, b.Index, b.LastHash, b.Timestamp, b.Data)
-	h := sha256.New()
-	h.Write([]byte(d))
-	return fmt.Sprintf(&#34;%x&#34;, h.Sum(nil))
-}
-
-func NewBlockChain() Chain {
-	date, error := time.Parse(time.RFC3339, &#34;2018-08-20T22:08:41+00:00&#34;)
-
-	if error != nil {
-		panic(error)
-	}
-
-	genesisBlock := NewBlock(0, &#34;Genesis Block&#34;, date)
-	genesisBlock.LastHash = &#34;0&#34;
-	genesisBlock.Hash = genesisBlock.createHash()
-
-	var blocks Blocks
-	blocks = append(blocks, genesisBlock)
-
-	return &amp;BlockChain{
-		Blocks: blocks,
-	}
-}
-
-func (b *BlockChain) AddBlock(block *Block) {
-	block.LastHash = b.GetLastBlock().Hash
-	block.Hash = block.createHash()
-	b.Blocks = append(b.Blocks, block)
-}
-
-func (b *BlockChain) GetLastBlock() *Block {
-	return b.Blocks[len(b.Blocks)-1]
-}
-
-func (b *BlockChain) GetBlocks() Blocks {
-	return b.Blocks
-}
-
-func (b *BlockChain) IsChainValid() bool {
-	for i := 1; i &lt; len(b.Blocks); i++ {
-		currentBlock := b.Blocks[i]
-		prevBlock := b.Blocks[i-1]
-
-		if currentBlock.Hash != currentBlock.createHash() {
-			return false
-		}
-
-		if currentBlock.LastHash != prevBlock.Hash {
-			return false
-		}
-	}
-
-	return true
-}
-
-func main() {
-	fmt.Println(&#34;Starting blockchain...&#34;)
-
-	blockchain := NewBlockChain()
-	r := gin.Default()
-
-	r.POST(&#34;/pay&#34;, func(c *gin.Context) {
-		var err error
-		fmt.Println(&#34;Pay !&#34;)
-		var incomingTransaction Transaction
-		if err = c.BindJSON(&amp;incomingTransaction); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				&#34;error&#34;:  &#34;json decoding : &#34; + err.Error(),
-				&#34;status&#34;: http.StatusBadRequest,
-			})
-			return
-		}
-		fmt.Println(incomingTransaction)
-		transfer := incomingTransaction
-		fmt.Println(transfer)
-		lengthOfChain := len(blockchain.GetBlocks())
-		indexBlock := lengthOfChain + 1
-		xferTransaction := NewTransaction(transfer.From, transfer.To, transfer.Amount);
-		transferBlock := NewBlock(indexBlock, xferTransaction, time.Now())
-		blockchain.AddBlock(transferBlock)
-		c.JSON(http.StatusOK, gin.H{&#34;transferValidity&#34;: blockchain.IsChainValid()})
-	})
-
-	r.GET(&#34;/blocks&#34;, func(c *gin.Context) {
-		currentBlocks := blockchain.GetBlocks()
-		c.JSON(http.StatusOK, gin.H{&#34;blocks&#34;: currentBlocks})
-	})
-
-	r.Run(&#34;localhost:3005&#34;)
-
-}
-
 </code></pre>
 
 

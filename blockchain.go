@@ -62,7 +62,7 @@ const addressChecksumLen = 4
 type Wallet struct {
 	PrivateKey ecdsa.PrivateKey
 	PublicKey  []byte
-	Balance float64
+	Balance    float64
 }
 
 func NewBlock(index int, data interface{},
@@ -294,12 +294,12 @@ func main() {
 				fmt.Println(fromJson)
 				blockchain.ClearBlocks()
 				/*
-				for k := range fromJson {
-					fmt.Println("-----s ----")
-					fmt.Println("key[%s]\n", k)
-					fmt.Println("value[%s]\n", fromJson[k])
-					fmt.Println("-----e ----")
-				}*/
+					for k := range fromJson {
+						fmt.Println("-----s ----")
+						fmt.Println("key[%s]\n", k)
+						fmt.Println("value[%s]\n", fromJson[k])
+						fmt.Println("-----e ----")
+					}*/
 
 				//transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
 				//blockchain.AddBlock(transferBlock)
@@ -313,11 +313,30 @@ func main() {
 	})
 
 	r.GET("/new-wallet", func(c *gin.Context) {
-        wallet := NewWallet()
+		var incomingWallet Wallet
+		wallet := NewWallet()
+		if c.BindQuery(&incomingWallet) == nil {
+			log.Println("====== Only Bind Query String ======")
+			log.Println(incomingWallet.Balance)
+			wallet.Balance = incomingWallet.Balance
+		}
 		a := wallet.GetAddress()
 		wallets[string(a)] = wallet
-        c.JSON(http.StatusOK, gin.H{"wallets": wallets})
-    })
+
+		var jsonWallet struct {
+			PublicKey string  `json:"publicKey"`
+			Amount    float64 `json:"Amount"`
+		}
+
+		jsonWallet.PublicKey = string(a)
+		jsonWallet.Amount = wallet.Balance
+
+		c.JSON(http.StatusOK, gin.H{"wallets": jsonWallet})
+	})
+
+	r.GET("/wallets", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"wallets": wallets})
+	})
 
 	r.GET("/blocks", func(c *gin.Context) {
 		currentBlocks := blockchain.GetBlocks()
@@ -346,7 +365,7 @@ func main() {
 			})
 			return
 		}
-	
+
 		fromA := incomingTransaction.From
 		toA := incomingTransaction.To
 		if fromA != toA {
@@ -357,7 +376,7 @@ func main() {
 					if fromW.Balance >= incomingTransaction.Amount {
 						fromW.Balance = fromW.Balance - incomingTransaction.Amount
 						toW.Balance = toW.Balance + incomingTransaction.Amount
-	
+
 						lengthOfChain := len(blockchain.GetBlocks())
 						xferTransaction := NewTransaction(fromA, toA, incomingTransaction.Amount)
 						transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
@@ -368,7 +387,7 @@ func main() {
 				}
 			}
 		}
-	
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid"})
 	})
 
