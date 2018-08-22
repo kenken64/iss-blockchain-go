@@ -62,7 +62,7 @@ go run blockchain.go utils.go base58.go -h localhost:3001
 go run blockchain.go utils.go base58.go -h localhost:3002 -d localhost:3001
 ```
 
-###Get the go lang dump from the binary file
+### Get the go lang dump from the binary file
 ```bash
 go tool objdump -S blockchain
 ```
@@ -72,6 +72,8 @@ go tool objdump -S blockchain
 Launch postman to test the following end point 
 
 * GET http://localhost:3001/blocks
+* GET http://localhost:3001/wallets
+* GET http://localhost:3001/new-wallet?Balance=1000
 * GET http://localhost:3001/ws
 * GET http://localhost:3001/is-chain-valid
 * POST http://localhost:3001/pay
