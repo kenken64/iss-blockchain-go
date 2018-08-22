@@ -239,7 +239,6 @@ func main() {
 	// Instantiate a new blockchain
 	blockchain := NewBlockChain()
 	wallets := make(map[string]*Wallet)
-
 	r := gin.Default()
 
 	help := flag.Bool("help", false, "Display Help")
@@ -287,22 +286,27 @@ func main() {
 					return
 				}
 				fmt.Println(jsonStr)
-				var fromJson map[string]interface{}
-				if err := json.Unmarshal([]byte(jsonStr), &fromJson); err != nil {
+				//var fromJson map[string]interface{}
+				var syncBlock Block
+				if err := json.Unmarshal([]byte(jsonStr), &syncBlock); err != nil {
 					panic(err)
 				}
-				fmt.Println(fromJson)
-				blockchain.ClearBlocks()
-				/*
-					for k := range fromJson {
-						fmt.Println("-----s ----")
-						fmt.Println("key[%s]\n", k)
-						fmt.Println("value[%s]\n", fromJson[k])
-						fmt.Println("-----e ----")
-					}*/
-
-				//transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
-				//blockchain.AddBlock(transferBlock)
+				fmt.Println(syncBlock)
+				childNodeBlocks := blockchain.GetBlocks()
+				foundAny := false
+				for _, v := range childNodeBlocks {
+					if v.Index == syncBlock.Index {
+						// Found!
+						fmt.Println(v.Index)
+						foundAny = true
+						break
+					}
+				}
+				fmt.Println(foundAny)
+				if foundAny == false {
+					newSyncBlock := NewBlock(len(childNodeBlocks), syncBlock.Data, time.Now())
+					blockchain.AddBlock(newSyncBlock)
+				}
 				mutex.Unlock()
 			}
 		}()

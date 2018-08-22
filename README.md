@@ -62,6 +62,10 @@ go run blockchain.go utils.go base58.go -h localhost:3001
 go run blockchain.go utils.go base58.go -h localhost:3002 -d localhost:3001
 ```
 
+###Get the go lang dump from the binary file
+```bash
+go tool objdump -S blockchain
+```
 
 ### Testing Endpoint
 
