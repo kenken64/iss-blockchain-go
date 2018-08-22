@@ -594,7 +594,6 @@ func main() {
     // Instantiate a new blockchain
     blockchain := NewBlockChain()
     wallets := make(map[string]*Wallet)
-
     r := gin.Default()
 
     help := flag.Bool(&#34;help&#34;, false, &#34;Display Help&#34;)
@@ -642,22 +641,27 @@ func main() {
                     return
                 }
                 fmt.Println(jsonStr)
-                var fromJson map[string]interface{}
-                if err := json.Unmarshal([]byte(jsonStr), &amp;fromJson); err != nil {
+                //var fromJson map[string]interface{}
+                var syncBlock Block
+                if err := json.Unmarshal([]byte(jsonStr), &amp;syncBlock); err != nil {
                     panic(err)
                 }
-                fmt.Println(fromJson)
-                blockchain.ClearBlocks()
-                /*
-                    for k := range fromJson {
-                        fmt.Println(&#34;-----s ----&#34;)
-                        fmt.Println(&#34;key[%s]\n&#34;, k)
-                        fmt.Println(&#34;value[%s]\n&#34;, fromJson[k])
-                        fmt.Println(&#34;-----e ----&#34;)
-                    }*/
-
-                //transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
-                //blockchain.AddBlock(transferBlock)
+                fmt.Println(syncBlock)
+                childNodeBlocks := blockchain.GetBlocks()
+                foundAny := false
+                for _, v := range childNodeBlocks {
+                    if v.Index == syncBlock.Index {
+                        // Found!
+                        fmt.Println(v.Index)
+                        foundAny = true
+                        break
+                    }
+                }
+                fmt.Println(foundAny)
+                if foundAny == false {
+                    newSyncBlock := NewBlock(len(childNodeBlocks), syncBlock.Data, time.Now())
+                    blockchain.AddBlock(newSyncBlock)
+                }
                 mutex.Unlock()
             }
         }()
@@ -759,7 +763,6 @@ func main() {
 
     r.Run(finalPortAssignment)
 }
-
 
 </code></pre>
 <h2>base58.go</h2>
