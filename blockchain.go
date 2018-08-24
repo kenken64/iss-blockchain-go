@@ -14,6 +14,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/boltdb/bolt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"golang.org/x/crypto/ripemd160"
@@ -244,6 +245,7 @@ func main() {
 	help := flag.Bool("help", false, "Display Help")
 	host := flag.String("h", "", "Host Address and Port")
 	dest := flag.String("d", "", "Dest MultiAddr String")
+	dbpath := flag.String("db", "", "local storage of the blockchain data")
 	flag.Parse()
 	if *help {
 		fmt.Printf("This program demonstrates a simple blockchain\n\n")
@@ -252,9 +254,32 @@ func main() {
 		os.Exit(0)
 	}
 
+	if *dbpath == "" {
+		fmt.Printf("Must specify db path")
+		os.Exit(0)
+	}
+
+	// Open an embedded.db data file in your current directory.
+	// It will be created if it doesn't exist.
+	db, err := bolt.Open(*dbpath, 0600, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	// Create a "bucket" in the boltdb file for our data.
+	if err := db.Update(func(tx *bolt.Tx) error {
+		_, err := tx.CreateBucket([]byte("blocks"))
+		if err != nil {
+			fmt.Errorf("create blocks storage: %s", err)
+		}
+		return nil
+	}); err != nil {
+		log.Fatal(err)
+	}
 	blocksSize := len(blockchain.GetBlocks())
 	fmt.Println("Total block size : ", blocksSize)
-	fmt.Println("readsssss:", *dest)
+	fmt.Println("readt destination :", *dest)
 	if *dest != "" {
 		URL := "ws://" + *dest + "/ws"
 
@@ -305,6 +330,21 @@ func main() {
 				fmt.Println(foundAny)
 				if foundAny == false {
 					newSyncBlock := NewBlock(len(childNodeBlocks), syncBlock.Data, time.Now())
+					b, err := json.Marshal(newSyncBlock)
+					if err != nil {
+						fmt.Printf("Error: %s", err)
+						return
+					}
+					bb := string(b)
+					if err := db.Update(func(tx *bolt.Tx) error {
+						fmt.Println("PUT!")
+						b := tx.Bucket([]byte("blocks"))
+						fmt.Println(bb)
+						err := b.Put([]byte(string(newSyncBlock.Index)), []byte(bb))
+						return err
+					}); err != nil {
+						log.Fatal(err)
+					}
 					blockchain.AddBlock(newSyncBlock)
 				}
 				mutex.Unlock()
@@ -344,19 +384,7 @@ func main() {
 
 	r.GET("/blocks", func(c *gin.Context) {
 		currentBlocks := blockchain.GetBlocks()
-		var interfaceSlice []interface{} = make([]interface{}, len(currentBlocks))
-		for i := range currentBlocks {
-			blockJson := &Block{
-				Index:     currentBlocks[i].Index,
-				Timestamp: currentBlocks[i].Timestamp,
-				LastHash:  currentBlocks[i].LastHash,
-				Hash:      currentBlocks[i].Hash,
-				Data:      currentBlocks[i].Data,
-			}
-			interfaceSlice[i] = blockJson
-		}
-
-		c.JSON(http.StatusOK, gin.H{"blocks": interfaceSlice})
+		c.JSON(http.StatusOK, gin.H{"blocks": currentBlocks})
 	})
 
 	r.POST("/pay", func(c *gin.Context) {
@@ -384,6 +412,22 @@ func main() {
 						lengthOfChain := len(blockchain.GetBlocks())
 						xferTransaction := NewTransaction(fromA, toA, incomingTransaction.Amount)
 						transferBlock := NewBlock(lengthOfChain, xferTransaction, time.Now())
+						b, err := json.Marshal(transferBlock)
+						if err != nil {
+							fmt.Printf("Error: %s", err)
+							return
+						}
+						bb := string(b)
+						// Put the map keys and values into the BoltDB file.
+						if err := db.Update(func(tx *bolt.Tx) error {
+							fmt.Println("PUT!")
+							b := tx.Bucket([]byte("blocks"))
+							fmt.Println(bb)
+							err := b.Put([]byte(string(transferBlock.Index)), []byte(bb))
+							return err
+						}); err != nil {
+							log.Fatal(err)
+						}
 						blockchain.AddBlock(transferBlock)
 						c.JSON(http.StatusOK, gin.H{"transferValidity": blockchain.IsChainValid()})
 						return

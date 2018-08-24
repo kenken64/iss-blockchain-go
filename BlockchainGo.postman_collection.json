@@ -1,0 +1,103 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BlockchainGo",
+		"_postman_id": "d32867f9-d647-6d74-3f44-7d65b5549553",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3001/new-wallet?Balance=1000",
+			"request": {
+				"url": {
+					"raw": "http://localhost:3001/new-wallet?Balance=1000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"new-wallet"
+					],
+					"query": [
+						{
+							"key": "Balance",
+							"value": "1000",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n   \"question\":\"Why is the durian called the king of fruits? ?\",\r\n   \"answers\":[  \r\n      {  \r\n         \"selection\":\"a\",\r\n         \"value\":\"The King of Fruits: Tastes Like Heaven, Smells Like Hell. This Southeast Asia's native is most highly prized and carries the title of the King of Fruits. The durian is the only fruit banned from airline cabins, hotels and public transportation. ... Its overwhelming, disgusting smell.\"\r\n      },\r\n      {  \r\n         \"selection\":\"b\",\r\n         \"value\":\"Spiky like the King's crown\"\r\n      },\r\n      {  \r\n         \"selection\":\"c\",\r\n         \"value\":\"Lion's fruit \"\r\n      },\r\n      {  \r\n         \"selection\":\"d\",\r\n         \"value\":\"No other fruit smells like it\"\r\n      }\r\n   ],\r\n   \"correctAnswer\": \"a\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/wallets",
+			"request": {
+				"url": "http://localhost:3001/wallets",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/blocks",
+			"request": {
+				"url": "http://localhost:3001/blocks",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/pay",
+			"request": {
+				"url": "http://localhost:3001/pay",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"From\": \"1JokmMumoVUymtWapBaotrfvjwBWA2c5kM\",\n\t\"To\": \"1LTmedZe4zG99KGRa3bHetm6AaXe42mmrk\",\n\t\"Amount\": 7000\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3002/blocks",
+			"request": {
+				"url": "http://localhost:3002/blocks",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
