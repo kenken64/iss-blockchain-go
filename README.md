@@ -34,6 +34,13 @@ go get golang.org/x/crypto/ripemd160
 go get github.com/boltdb/bolt
 ```
 
+Error will be thrown if the package is not installed
+```
+blockchain.go:17:2: cannot find package "github.com/boltdb/bolt" in any of:
+	/usr/local/Cellar/go/1.10.3/libexec/src/github.com/boltdb/bolt (from $GOROOT)
+	/Users/phangty/code/go/src/github.com/boltdb/bolt (from $GOPATH)
+```
+
 ### Utilities required
 install gomon (https://github.com/johannesboyne/gomon)
 
