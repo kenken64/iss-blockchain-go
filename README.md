@@ -59,7 +59,7 @@ chmod +x blockchain
 |----------|-------------------------------------------------|---|---|---|
 | -h       | bind to current node's hostname and port number |   |   |   |
 | -d       | Connect to the master node                      |   |   |   |
-| -db      | Local fast data storage                         |   |   |   |
+| -db      | Directory of the local fast data storage        |   |   |   |
 
 Node 1
 ```bash
