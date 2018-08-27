@@ -90,6 +90,24 @@ go tool objdump -S blockchain
 
 ### Testing Endpoint
 
+1. Launch Postman select GET enter http://localhost:3001/new-wallet?Balance=1000 on the url field
+2. Copy the public key address and save it somewhere on your notepad
+3. Repeat step 1 and 2 again
+4. Check the current blocks (aka chain) creating another test case GET http://localhost:3001/blocks
+5. Perform transaction using two newly created wallet. Replace the From and To with your newly generated public key address. Input a valid from amount. POST http://localhost:3001/pay
+6. If you have a child node up and running use Postman and retrieve the blocks GET http://localhost:3002/blocks. The blocks record should be in sync.
+
+
+Payload for the above POST
+
+```
+{
+	"From": "1255ixJZuuibAhVRMX4W8Wc3LAUv26mZ8o",
+	"To": "161REKjszyKzo7Ew5hoGz1AT8wdGTJ5wj7",
+	"Amount": 500
+}
+```
+
 Launch postman to test the following end point 
 
 * GET http://localhost:3001/blocks
@@ -99,15 +117,7 @@ Launch postman to test the following end point
 * GET http://localhost:3001/is-chain-valid
 * POST http://localhost:3001/pay
 
-Payload for the above POST
 
-```
-{
-	"From": "Bala",
-	"To": "Chuk",
-	"Amount": 500
-}
-```
 
 ### Generate Google Codelabs tool
 ```bash
