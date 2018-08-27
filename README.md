@@ -27,6 +27,13 @@ go get github.com/gorilla/websocket
 go get golang.org/x/crypto/ripemd160
 ```
 
+### Get fast key value database
+* Install bolt package for fast key value database
+
+```bash
+go get github.com/boltdb/bolt
+```
+
 ### Utilities required
 install gomon (https://github.com/johannesboyne/gomon)
 
@@ -52,15 +59,22 @@ go run blockchain.go
 ```
 go build blockchain.go utils.go base58.go
 chmod +x blockchain
-./blockchain -h localhost:3001
+./blockchain -h localhost:3001 -db node1.db
 ./blockchain -h localhost:3002 -d localhost:3001
 ```
 
 ### Node synchornization using client server rather p2p
+
+Running master node with bolt db argument
+```bash
+go run blockchain.go utils.go base58.go -h localhost:3001 -db node1.db
 ```
-go run blockchain.go utils.go base58.go -h localhost:3001
-go run blockchain.go utils.go base58.go -h localhost:3002 -d localhost:3001
+
+Running child node with bolt db argument
+```bash
+go run blockchain.go utils.go base58.go -h localhost:3002 -d localhost:3001 -db node2.db
 ```
+
 
 ### Get the go lang dump from the binary file
 ```bash
