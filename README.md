@@ -67,7 +67,7 @@ go run blockchain.go
 go build blockchain.go utils.go base58.go
 chmod +x blockchain
 ./blockchain -h localhost:3001 -db node1.db
-./blockchain -h localhost:3002 -d localhost:3001
+./blockchain -h localhost:3002 -d localhost:3001 -db node2.db
 ```
 
 ### Node synchornization using client server rather p2p
