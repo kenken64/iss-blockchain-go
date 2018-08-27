@@ -1,4 +1,4 @@
-### Workshop Google Codelabs
+### Google Codelabs Workshop Style Layout
 [Workshop](https://bit.ly/2MHxKmp)
 
 ### Pre-requisite
