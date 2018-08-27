@@ -48,25 +48,26 @@ install gomon (https://github.com/johannesboyne/gomon)
 npm install -g go-mon
 ```
 
-### How to start the blockchain app
-
-Go to your terminal and execute the following either one of the command line
-
-```
-gomon blockchain.go
-```
-
-alternatively 
-
-```
-go run blockchain.go
-```
-
 ### Compile the golang source code into binary file, execute the program in binary mode
+
 ```
 go build blockchain.go utils.go base58.go
 chmod +x blockchain
+```
+
+| Argument | Description                                     |   |   |   |
+|----------|-------------------------------------------------|---|---|---|
+| -h       | bind to current node's hostname and port number |   |   |   |
+| -d       | Connect to the master node                      |   |   |   |
+| -db      | Local fast data storage                         |   |   |   |
+
+Node 1
+```bash
 ./blockchain -h localhost:3001 -db node1.db
+```
+
+Node 2
+```bash
 ./blockchain -h localhost:3002 -d localhost:3001 -db node2.db
 ```
 
@@ -82,6 +83,20 @@ Running child node with bolt db argument
 go run blockchain.go utils.go base58.go -h localhost:3002 -d localhost:3001 -db node2.db
 ```
 
+
+### How to start the blockchain app
+
+Go to your terminal and execute the following either one of the command line
+
+```
+gomon blockchain.go utils.go base58.go
+```
+
+alternatively 
+
+```
+go run blockchain.go utils.go base58.go
+```
 
 ### Get the go lang dump from the binary file
 ```bash
