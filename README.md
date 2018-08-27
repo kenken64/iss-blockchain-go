@@ -41,6 +41,12 @@ blockchain.go:17:2: cannot find package "github.com/boltdb/bolt" in any of:
 	/Users/phangty/code/go/src/github.com/boltdb/bolt (from $GOPATH)
 ```
 
+### How to update all installed golang packages 
+
+```bash
+go get -u all
+```
+
 ### Utilities required
 install gomon (https://github.com/johannesboyne/gomon)
 
