@@ -87,6 +87,22 @@ go get github.com/gin-gonic/gin
 go get github.com/gorilla/websocket
 ```
 
+### Get ripeMD160
+
+- Install package ripemd160 implements the RIPEMD-160 hash algorithm.
+
+```bash
+go get golang.org/x/crypto/ripemd160
+```
+
+### Get fast key value database (BoltDB)
+
+- Install bolt package for fast key value database
+
+```bash
+go get github.com/boltdb/bolt
+```
+
 ## What the facts (WTF) 
 Duration: 20:50
 
@@ -431,6 +447,11 @@ Positive
 
 ##Workshop Solution
 Duration: 300:0
+
+### Step by step development
+
+1. Create a file name it as "blockchain.go" using an IDE (Atom/Visual Studio Code)
+2.  
 
 [Github](https://github.com/kenken64/iss-blockchain-go)
 

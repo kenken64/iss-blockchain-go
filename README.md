@@ -32,7 +32,7 @@ go get github.com/gorilla/websocket
 go get golang.org/x/crypto/ripemd160
 ```
 
-### Get fast key value database
+### Get fast key value database (BoltDB)
 
 - Install bolt package for fast key value database
 
@@ -69,11 +69,11 @@ go build blockchain.go utils.go base58.go
 chmod +x blockchain
 ```
 
-| Argument | Description                                     |     |     |     |
-| -------- | ----------------------------------------------- | --- | --- | --- |
-| -h       | bind to current node's hostname and port number |     |     |     |
-| -d       | Connect to the master node                      |     |     |     |
-| -db      | Directory of the local fast data storage        |     |     |     |
+| Argument | Description                                     |
+| -------- | ----------------------------------------------- |
+| -h       | bind to current node's hostname and port number |
+| -d       | Connect to the master node                      |
+| -db      | Directory of the local fast data storage        |
 
 Node 1
 
@@ -143,12 +143,12 @@ Payload for the above POST
 Launch postman to test the following end point
 
 | HTTP Method | URL                                           | Description                           |     |     |
-| ----------- | --------------------------------------------- | ------------------------------------- | --- | --- |
-| GET         | http://localhost:3001/blocks                  | Get All Blocks                        |     |     |
-| GET         | http://localhost:3001/wallets                 | Get All Wallets                       |     |     |
-| GET         | http://localhost:3001/new-wallet?Balance=1000 | Create New Wallet with specify amount |     |     |
-| GET         | http://localhost:3001/is-chain-valid          | Check whether the chain is valid      |     |     |
-| POST        | http://localhost:3001/pay                     | Perform a pay transaction             |     |     |
+| ----------- | --------------------------------------------- | ------------------------------------- | 
+| GET         | http://localhost:3001/blocks                  | Get All Blocks                        |
+| GET         | http://localhost:3001/wallets                 | Get All Wallets                       |
+| GET         | http://localhost:3001/new-wallet?Balance=1000 | Create New Wallet with specify amount |
+| GET         | http://localhost:3001/is-chain-valid          | Check whether the chain is valid      |
+| POST        | http://localhost:3001/pay                     | Perform a pay transaction             |
 
 ### Generate Google Codelabs tool
 
