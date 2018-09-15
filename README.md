@@ -142,8 +142,8 @@ Payload for the above POST
 
 Launch postman to test the following end point
 
-| HTTP Method | URL                                           | Description                           |     |     |
-| ----------- | --------------------------------------------- | ------------------------------------- | 
+| HTTP Method | URL                                           | Description                           |
+| ----------- | --------------------------------------------- | ------------------------------------- |
 | GET         | http://localhost:3001/blocks                  | Get All Blocks                        |
 | GET         | http://localhost:3001/wallets                 | Get All Wallets                       |
 | GET         | http://localhost:3001/new-wallet?Balance=1000 | Create New Wallet with specify amount |
