@@ -1,6 +1,6 @@
 ### Google Codelabs Workshop Style Layout
 
-[Workshop](https://bit.ly/2MHxKmp)
+[Workshop](https://kenken64.github.io/iss-blockchain-go/)
 
 ### Pre-requisite
 
