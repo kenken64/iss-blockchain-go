@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "source": "blockchain-iss.md",
+  "format": "html",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-03-08T14:00:50+08:00",
+  "id": "docs",
+  "duration": 635,
+  "title": "Build your own Blockchain (GoLang Programming)",
+  "author": "Kenneth Phang Tak Yan",
+  "summary": "Build your own Blockchain (GoLang Programming)",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "sdk"
+  ],
+  "tags": [
+    "golang"
+  ],
+  "feedback": "github.com/kenken64",
+  "ga": "0",
+  "url": "docs"
+}

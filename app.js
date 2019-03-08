@@ -3,7 +3,7 @@ const express = require('express'),
 
 var app = express();
 
-app.use(express.static(path.join(__dirname, '282878')));
+app.use(express.static(path.join(__dirname, 'docs')));
 app.use("/bower_components", express.static(path.join(__dirname, 'bower_components')));
 app.use("/elements", express.static(path.join(__dirname, 'elements')));
 app.use("/images", express.static(path.join(__dirname, 'images')));
