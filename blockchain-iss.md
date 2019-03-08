@@ -103,6 +103,90 @@ go get golang.org/x/crypto/ripemd160
 go get github.com/boltdb/bolt
 ```
 
+## Go Programming Language
+Duration: 30:00
+
+###Features
+The key features are the form of learning Go. All the tasks are challenging, and most come from the real open libraries as well as relevant papers or talks, however not difficult to complete. It will help you understand main parts of these works instead of browsing the huge code.
+
+In my opinion the best way to learn coding is just coding.
+
+There are currently 10 exercises, those works were done during the weekend of hackthon, so they are not seemingly that perfect, but I am sure, you will gain a lot if you finish the tasks.
+
+###How to install
+This repo has no dependencies, so you can install by typing:
+```
+git clone https://github.com/gophergala/learn-Go-the-hard-way
+```
+or
+```
+go get -u github.com/gophergala/learn-Go-the-hard-way
+```
+###Formatting
+
+```
+type T struct {
+    name string // name of the object
+    value int // its value
+}
+```
+
+###Commentary
+```
+/*
+Package regexp implements a simple library for regular expressions.
+
+The syntax of the regular expressions accepted is:
+
+    regexp:
+        concatenation { '|' concatenation }
+    concatenation:
+        { closure }
+    closure:
+        term [ '*' | '+' | '?' ]
+    term:
+        '^'
+        '$'
+        '.'
+        character
+        '[' [ '^' ] character-ranges ']'
+        '(' regexp ')'
+*/
+package regexp
+```
+
+If every doc comment begins with the name of the item it describes, you can use the doc subcommand of the go tool and run the output through grep. Imagine you couldn't remember the name "Compile" but were looking for the parsing function for regular expressions, so you ran the command,
+
+```
+go doc -all regexp | grep -i parse
+```
+
+###Package names
+When a package is imported, the package name becomes an accessor for the contents. After
+```
+import "bytes"
+```
+he importing package can talk about bytes.Buffer. It's helpful if everyone using the package can use the same name to refer to its contents, which implies that the package name should be good: short, concise, evocative. By convention, packages are given lower case, single-word names; there should be no need for underscores or mixedCaps. Err on the side of brevity, since everyone using your package will be typing that name. And don't worry about collisions a priori. The package name is only the default name for imports; it need not be unique across all source code, and in the rare case of a collision the importing package can choose a different name to use locally. In any case, confusion is rare because the file name in the import determines just which package is being used.
+
+###Semicolons
+Like C, Go's formal grammar uses semicolons to terminate statements, but unlike in C, those semicolons do not appear in the source. Instead the lexer uses a simple rule to insert semicolons automatically as it scans, so the input text is mostly free of them.
+
+The rule is this. If the last token before a newline is an identifier (which includes words like int and float64), a basic literal such as a number or string constant, or one of the tokens
+
+```
+break continue fallthrough return ++ -- ) }
+```
+
+###How to use
+You should complete the current exercise before you enter the next.
+
+Each exercise is a git tag (from l1 to l10), you can check out the tag, and finish the task with tips.
+
+Run go test, if you complete the task, and it will tell you whether you pass the task.
+
+To get the tips, please run go run main.go, and follow the tips to modify main.go.
+
+
 ## What the facts (WTF) 
 Duration: 20:50
 

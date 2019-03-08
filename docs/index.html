@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>Build your own Blockchain (GoLang Programming)</title>
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="elements/codelab.html">
+  <script src="docsbower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="docselements/codelab.html">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <style is="custom-style">
     body {
@@ -105,6 +105,68 @@
 </ul>
 <pre><code>go get github.com/boltdb/bolt
 </code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Go Programming Language" duration="30">
+        <h2>Features</h2>
+<p>The key features are the form of learning Go. All the tasks are challenging, and most come from the real open libraries as well as relevant papers or talks, however not difficult to complete. It will help you understand main parts of these works instead of browsing the huge code.</p>
+<p>In my opinion the best way to learn coding is just coding.</p>
+<p>There are currently 10 exercises, those works were done during the weekend of hackthon, so they are not seemingly that perfect, but I am sure, you will gain a lot if you finish the tasks.</p>
+<h2>How to install</h2>
+<p>This repo has no dependencies, so you can install by typing:</p>
+<pre><code>git clone https://github.com/gophergala/learn-Go-the-hard-way
+</code></pre>
+<p>or</p>
+<pre><code>go get -u github.com/gophergala/learn-Go-the-hard-way
+</code></pre>
+<h2>Formatting</h2>
+<pre><code>type T struct {
+    name string // name of the object
+    value int // its value
+}
+</code></pre>
+<h2>Commentary</h2>
+<pre><code>/*
+Package regexp implements a simple library for regular expressions.
+
+The syntax of the regular expressions accepted is:
+
+    regexp:
+        concatenation { &#39;|&#39; concatenation }
+    concatenation:
+        { closure }
+    closure:
+        term [ &#39;*&#39; | &#39;+&#39; | &#39;?&#39; ]
+    term:
+        &#39;^&#39;
+        &#39;$&#39;
+        &#39;.&#39;
+        character
+        &#39;[&#39; [ &#39;^&#39; ] character-ranges &#39;]&#39;
+        &#39;(&#39; regexp &#39;)&#39;
+*/
+package regexp
+</code></pre>
+<p>If every doc comment begins with the name of the item it describes, you can use the doc subcommand of the go tool and run the output through grep. Imagine you couldn&#39;t remember the name &#34;Compile&#34; but were looking for the parsing function for regular expressions, so you ran the command,</p>
+<pre><code>go doc -all regexp | grep -i parse
+</code></pre>
+<h2>Package names</h2>
+<p>When a package is imported, the package name becomes an accessor for the contents. After</p>
+<pre><code>import &#34;bytes&#34;
+</code></pre>
+<p>he importing package can talk about bytes.Buffer. It&#39;s helpful if everyone using the package can use the same name to refer to its contents, which implies that the package name should be good: short, concise, evocative. By convention, packages are given lower case, single-word names; there should be no need for underscores or mixedCaps. Err on the side of brevity, since everyone using your package will be typing that name. And don&#39;t worry about collisions a priori. The package name is only the default name for imports; it need not be unique across all source code, and in the rare case of a collision the importing package can choose a different name to use locally. In any case, confusion is rare because the file name in the import determines just which package is being used.</p>
+<h2>Semicolons</h2>
+<p>Like C, Go&#39;s formal grammar uses semicolons to terminate statements, but unlike in C, those semicolons do not appear in the source. Instead the lexer uses a simple rule to insert semicolons automatically as it scans, so the input text is mostly free of them.</p>
+<p>The rule is this. If the last token before a newline is an identifier (which includes words like int and float64), a basic literal such as a number or string constant, or one of the tokens</p>
+<pre><code>break continue fallthrough return ++ -- ) }
+</code></pre>
+<h2>How to use</h2>
+<p>You should complete the current exercise before you enter the next.</p>
+<p>Each exercise is a git tag (from l1 to l10), you can check out the tag, and finish the task with tips.</p>
+<p>Run go test, if you complete the task, and it will tell you whether you pass the task.</p>
+<p>To get the tips, please run go run main.go, and follow the tips to modify main.go.</p>
 
 
       </google-codelab-step>
