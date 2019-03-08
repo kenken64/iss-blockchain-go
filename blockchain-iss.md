@@ -122,6 +122,17 @@ or
 ```
 go get -u github.com/gophergala/learn-Go-the-hard-way
 ```
+
+
+###How to use
+You should complete the current exercise before you enter the next.
+
+Each exercise is a git tag (from l1 to l10), you can check out the tag, and finish the task with tips.
+
+Run go test, if you complete the task, and it will tell you whether you pass the task.
+
+To get the tips, please run go run main.go, and follow the tips to modify main.go.
+
 ###Formatting
 
 ```
@@ -177,14 +188,42 @@ The rule is this. If the last token before a newline is an identifier (which inc
 break continue fallthrough return ++ -- ) }
 ```
 
-###How to use
-You should complete the current exercise before you enter the next.
+###Control Statements - If
+The control structures of Go are related to those of C but differ in important ways. There is no do or while loop, only a slightly generalized for; switch is more flexible; if and switch accept an optional initialization statement like that of for; break and continue statements take an optional label to identify what to break or continue; and there are new control structures including a type switch and a multiway communications multiplexer, select. The syntax is also slightly different: there are no parentheses and the bodies must always be brace-delimited.
 
-Each exercise is a git tag (from l1 to l10), you can check out the tag, and finish the task with tips.
+```
+if x > 0 {
+    return y
+}
+```
 
-Run go test, if you complete the task, and it will tell you whether you pass the task.
+```
+f, err := os.Open(name)
+if err != nil {
+    return err
+}
+d, err := f.Stat()
+if err != nil {
+    f.Close()
+    return err
+}
+codeUsing(f, d)
+```
 
-To get the tips, please run go run main.go, and follow the tips to modify main.go.
+###Redeclaration and reassignment ¶
+An aside: The last example in the previous section demonstrates a detail of how the := short declaration form works. The declaration that calls os.Open reads,
+
+```
+f, err := os.Open(name)
+```
+
+This statement declares two variables, f and err. A few lines later, the call to f.Stat reads,
+```
+d, err := f.Stat()
+```
+
+###Control Statements - For
+The Go for loop is similar to—but not the same as—C's. It unifies for and while and there is no do-while. There are three forms, only one of which has semicolons.
 
 
 ## What the facts (WTF) 

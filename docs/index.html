@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>Build your own Blockchain (GoLang Programming)</title>
-  <script src="docsbower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="docselements/codelab.html">
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="elements/codelab.html">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <style is="custom-style">
     body {
@@ -121,6 +121,11 @@
 <p>or</p>
 <pre><code>go get -u github.com/gophergala/learn-Go-the-hard-way
 </code></pre>
+<h2>How to use</h2>
+<p>You should complete the current exercise before you enter the next.</p>
+<p>Each exercise is a git tag (from l1 to l10), you can check out the tag, and finish the task with tips.</p>
+<p>Run go test, if you complete the task, and it will tell you whether you pass the task.</p>
+<p>To get the tips, please run go run main.go, and follow the tips to modify main.go.</p>
 <h2>Formatting</h2>
 <pre><code>type T struct {
     name string // name of the object
@@ -162,11 +167,32 @@ package regexp
 <p>The rule is this. If the last token before a newline is an identifier (which includes words like int and float64), a basic literal such as a number or string constant, or one of the tokens</p>
 <pre><code>break continue fallthrough return ++ -- ) }
 </code></pre>
-<h2>How to use</h2>
-<p>You should complete the current exercise before you enter the next.</p>
-<p>Each exercise is a git tag (from l1 to l10), you can check out the tag, and finish the task with tips.</p>
-<p>Run go test, if you complete the task, and it will tell you whether you pass the task.</p>
-<p>To get the tips, please run go run main.go, and follow the tips to modify main.go.</p>
+<h2>Control Statements - If</h2>
+<p>The control structures of Go are related to those of C but differ in important ways. There is no do or while loop, only a slightly generalized for; switch is more flexible; if and switch accept an optional initialization statement like that of for; break and continue statements take an optional label to identify what to break or continue; and there are new control structures including a type switch and a multiway communications multiplexer, select. The syntax is also slightly different: there are no parentheses and the bodies must always be brace-delimited.</p>
+<pre><code>if x &gt; 0 {
+    return y
+}
+</code></pre>
+<pre><code>f, err := os.Open(name)
+if err != nil {
+    return err
+}
+d, err := f.Stat()
+if err != nil {
+    f.Close()
+    return err
+}
+codeUsing(f, d)
+</code></pre>
+<h2>Redeclaration and reassignment ¶</h2>
+<p>An aside: The last example in the previous section demonstrates a detail of how the := short declaration form works. The declaration that calls os.Open reads,</p>
+<pre><code>f, err := os.Open(name)
+</code></pre>
+<p>This statement declares two variables, f and err. A few lines later, the call to f.Stat reads,</p>
+<pre><code>d, err := f.Stat()
+</code></pre>
+<h2>Control Statements - For</h2>
+<p>The Go for loop is similar to—but not the same as—C&#39;s. It unifies for and while and there is no do-while. There are three forms, only one of which has semicolons.</p>
 
 
       </google-codelab-step>
