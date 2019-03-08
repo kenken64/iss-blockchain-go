@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>Build your own Blockchain (GoLang Programming)</title>
-  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../elements/codelab.html">
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="elements/codelab.html">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <style is="custom-style">
     body {
@@ -144,12 +144,12 @@
 <h2>Nonce</h2>
 <p>The nonce value is iterated by one on every hash generation attempt. If the hash value satisfies the difficulty level, we save the nonce value in the block so other nodes can quickly validate the hash.</p>
 <h2>51% Attack</h2>
-<p><img src="img\4136636c159a1357.png"><br><br>A 51% attack could result if a dishonest party could control more than 50% of the computer nodes on the network resulting in the ability to compute hashes faster than any other nodes on the network. This could result in corruption of the blockchain and double spending. The more nodes there are on the network, the less likely this is to happen.</p>
-<p><img src="img\3141e8c4a1c66723.png"><br><img src="img\be282482053c90df.png"><br><img src="img\776c5c6cbb9fed93.png"><br><img src="img\4f2dd5aa471fa863.png"><br><img src="img\d5a81127d20b3093.png"><br><a href="https://www.youtube.com/watch?v=3TQ9Sfh-7kQ" target="_blank">Youtube Video</a></p>
+<p><img src="img/4136636c159a1357.png"><br><br>A 51% attack could result if a dishonest party could control more than 50% of the computer nodes on the network resulting in the ability to compute hashes faster than any other nodes on the network. This could result in corruption of the blockchain and double spending. The more nodes there are on the network, the less likely this is to happen.</p>
+<p><img src="img/3141e8c4a1c66723.png"><br><img src="img/be282482053c90df.png"><br><img src="img/776c5c6cbb9fed93.png"><br><img src="img/4f2dd5aa471fa863.png"><br><img src="img/d5a81127d20b3093.png"><br><a href="https://www.youtube.com/watch?v=3TQ9Sfh-7kQ" target="_blank">Youtube Video</a></p>
 <h2>Dynamic Difficulty Level</h2>
 <p>The blockchain uses a dynamic difficulty level by increasing the difficulty level if blocks are mined too quickly and decreasing the difficulty level if blocks are mined too slowly. The blockchain&#39;s default mine rate is 3000 milliseconds and the difficulty level is adjusted based on whether blocks are mined faster or slower than this value.</p>
 <p>Our blockchain supports the idea of a dynamic difficulty level that changes over time, depending on how quickly blocks are added to the blockchain. Each block stores the difficulty level and the mine rate, which represents the rate at which blocks should be mined. Difficulty level will be adjusted by checking the difference between the current and previous blocks and increasing the difficulty level if the difference is below the target mine rate (to increase mining time) and decreasing the difficulty level if the difference is above the target mine rate (to decrease mining time).</p>
-<p><img src="img\be7fe5bbddf898.png"><br></p>
+<p><img src="img/be7fe5bbddf898.png"><br></p>
 <p><a href="https://etherscan.io/chart/difficulty" target="_blank">Ethereum Block Difficulty Chart</a></p>
 
 
@@ -258,13 +258,13 @@ p = &amp;i
       <google-codelab-step label="Blockchain replication" duration="20">
         <p>What is a forks?</p>
 <p>Every node on the network needs to have the same copy of the blockchain. So what happens when a new block gets mined on one node? Now the system has to replicate the new block to all the other nodes on the network so every node is in sync and has the same copy of the blockchain.</p>
-<p><img src="img\b2388a31bbd6f95.png"></p>
+<p><img src="img/b2388a31bbd6f95.png"></p>
 <p>Since the blockchain needs to be replicated among all nodes in the network, the question arises – what happens if two nodes mine a block at the same time? This is when there&#39;s a fork in the blockchain and the system needs to reconcile the fork and merge all the new blocks.</p>
-<p><img src="img\21f24bfed0b8a1b6.png"></p>
+<p><img src="img/21f24bfed0b8a1b6.png"></p>
 <p>When a fork occurs, some nodes will get replicated from node A and some will get replicated from node B which will create the following scenario:</p>
-<p><img src="img\f2f6c82fe9421966.png"></p>
+<p><img src="img/f2f6c82fe9421966.png"></p>
 <p>We will use the rule that the longest chain will be accepted as the main chain. If there is a conflict between multiple nodes mining blocks at the same time, eventually, one chain will be longer and that will be accepted as the master blockchain. The other blocks that were mined on the shorter chain will be incorporated into the main blockchain.</p>
-<p><img src="img\2c6071477a35a6cc.png"></p>
+<p><img src="img/2c6071477a35a6cc.png"></p>
 
 
       </google-codelab-step>
@@ -295,25 +295,25 @@ p = &amp;i
       <google-codelab-step label="Workshop" duration="45">
         <p>In this workshop, you will write your blockchain in Google&#39;s Go Programming language. Define your own blockchain data structure, form your blockchain functionalities, create your transaction management, provide rest API and lastly blockchain data synchronisation. Let us all recap how a transaction works between two or more parties in a traditional banking transfer system vs blockchain.</p>
 <h2>Today&#39;s banking system (Remittance Cycle)</h2>
-<p><img src="img\4daff8cafcaa62dd.png"></p>
+<p><img src="img/4daff8cafcaa62dd.png"></p>
 <p><strong>Q: What if the banking software crash? </strong></p>
 <p>A: Of course definitely there is a downtime and recovery process takes place in the bank. A customer won&#39;t able to perform fund transfer during that time. All customer have to wait until the system is fully up and operational. That leads to a single point of failure in my opinion.</p>
 <p><strong>Q: Looks like there is a lot of parties involved in between this wire transfer cycle?</strong></p>
 <p>A: Yes the seller&#39;s bank and the buyer&#39;s bank. Sometimes we might have a clearinghouse as well. With all these dependencies in place that is the reason why bank need 1-2 working days to clear the funds abroad.</p>
 <h2>Blockchain scenario (CryptoCurrency)</h2>
 <p>Shows how transaction happens on the blockchain network:-</p>
-<p><img src="img\2d9d1926d91629e6.png"></p>
+<p><img src="img/2d9d1926d91629e6.png"></p>
 <p>All transactions record are publicly available. Every single transfer is recorded on the distributed ledger.</p>
 <p><strong>Q: Which technology has the most transparency if a side by side comparison is done?</strong></p>
 <p>A: Definitely not the banking system, if there are a fraud and insider job in the bank it has to wait till an audit exercise to discover as an incident. Therefore blockchain is an evolution. An effective e-commerce platform is overdue without an evolution and well-integrated payment technology with transparency.</p>
 <h2>Developing your own Blockchain</h2>
 <p>Define a data structure to hold all your blockchain data</p>
 <p>A Block struct with the following members</p>
-<p><img src="img\45e785e87a6f31ca.png"></p>
+<p><img src="img/45e785e87a6f31ca.png"></p>
 <p>A Blockchain struct with the following members</p>
-<p><img src="img\386285bb789948ad.png"></p>
+<p><img src="img/386285bb789948ad.png"></p>
 <p>A Transaction struct with the following members</p>
-<p><img src="img\d3d232ad1a6b1ab3.png"></p>
+<p><img src="img/d3d232ad1a6b1ab3.png"></p>
 <h2>Requirement</h2>
 <ul>
 <li>Define a type where is a list of the Block structure.</li>
@@ -362,7 +362,11 @@ p = &amp;i
       </google-codelab-step>
     
       <google-codelab-step label="Workshop Solution" duration="300">
-        <p><a href="https://github.com/kenken64/iss-blockchain-go" target="_blank">Github</a></p>
+        <h2>Step by step development</h2>
+<ol type="1">
+<li>Create a file name it as &#34;blockchain.go&#34; using an IDE (Atom/Visual Studio Code)</li>
+</ol>
+<p><a href="https://github.com/kenken64/iss-blockchain-go" target="_blank">Github</a></p>
 <h2>Full Source code</h2>
 <h2>blockchain.go</h2>
 <pre><code>package main
